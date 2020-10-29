@@ -1,0 +1,116 @@
+
+
+.console{
+    width: 1035px;
+    height: 400px;
+    background-color: black;
+    text-align: left;
+    color: blanchedalmond;
+    font-size: x-large;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    resize: none;
+}
+
+
+
+body {
+    background: rgb(0, 112, 163);
+}
+
+.btn {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.btnp {
+    border: none;
+    background: #272829;
+    color: #272829;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 2px;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 500ms ease;
+}
+.contenedor {
+    width: 1080px;
+    margin: auto;
+    background: #272829;
+    color: rgb(0, 112, 163);
+    padding: 20px 15px 50px 50px;
+    border-radius: 10px;
+    box-shadow: 0 10px 10px 0px rgba(0, 0, 0, 0.8);
+}
+
+.contene {
+    width: 1080px;
+    margin: auto;
+    background: #272829;
+    color: rgb(0, 112, 163);
+    padding: 20px 15px 50px 50px;
+    border-radius: 10px;
+    box-shadow: 0 10px 10px 0px rgba(0, 0, 0, 0.8);
+}
+
+
+.conteneast {
+    width: 900px;
+    margin: auto;
+    background: black;
+    color: rgb(0, 112, 163);
+    padding: 20px 15px 50px 50px;
+    border-radius: 10px;
+    box-shadow: 0 10px 10px 0px rgba(0, 0, 0, 0.8);
+}
+
+.contenedor .titulo {
+    font-size: 3.5ex;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.contene .titulo {
+    font-size: 3.5ex;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+#pestanas {
+    float: top;
+    font-size: 2ex;
+    font-weight: bold;
+}
+
+#pestanas ul {
+    margin-left: -40px;
+}
+
+#pestanas li {
+    list-style-type: none;
+    float: left;
+    text-align: center;
+    margin: 2px 2px -2px -0px;
+    background: #22556e;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border: 2px solid #3b7ea0;
+    border-bottom: white;
+    padding: 0px 20px 0px 20px;
+    height: 25px;
+}
+
+#pestanas a:link {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#contenidopestanas {
+    clear: both;
+    border-radius: 1px;
+    width: 1025px;
+}
+
