@@ -3,6 +3,11 @@
  */
 
 /* Definición Léxica */
+%{
+    //var AST = require("../AST/Entornos/AST");
+	const {Primitivo} = require('../Interprete/Expression/Primitivo');
+	
+%}
 %lex
 
 %options case-insensitive
@@ -86,7 +91,7 @@
 
 
 %{
-	//const TIPO_OPERACION	= require('./INSTRUCCIONES').TIPO_OPERACION;
+
 %}
 
 
@@ -104,35 +109,101 @@
 /*****************************************************************************************************/
 
 INI
-	:E  EOF 
-	{
-	} 
-;
-E
-	:rpublic {console.log('Se reconadfadajdlsfksocio public');}
-
+	:LISTA_IF  EOF 
+	{} 
 ;
 
-/*
-E 
-	:E smas E
-	//{$$= new Aritmetica($1,$3,"suma", @1.first_line, @1.first_column);}
-	|E smenos E
-	//{$$ = new Operacion($1, $3, "Resta", "a", @1.first_line, @1.first_column); }
-	|E spor E
-	//{$$ = new Operacion($1, $3, "Multplicacion", "a", @1.first_line, @1.first_column); }
-	|E sdiv E
-	//{$$ = new Operacion($1, $3, "Division", "a", @1.first_line, @1.first_column); }
-	|E sor 	E
-	//{$$ = new Operacion($1, $3, "Or", "l", @1.first_line, @1.first_column); }
-	|E sand E	
-	//{$$ = new Operacion($1, $3, "And", "l", @1.first_line, @1.first_column); }
+LISTA_IF
+	:LISTA_IF IF
+	{}
+	|IF
+	{}
+;
+
+IF  : rif sparizq EXPRESION sparder STATCOR  OTHERELSE
+		{}
+    | rif sparizq EXPRESION sparder STATCOR 
+		{}
+;
+OTHERELSE 
+	: LELSEIF relse STATCOR	
+	{}
+    |         relse STATCOR	
+	{}	
+	| LELSEIF  	
+	{}
+;
+LELSEIF : LELSEIF ELSEIF	{}
+        | ELSEIF			{}
+;
+ELSEIF  
+	: relse rif sparizq EXPRESION sparder  STATCOR	{}
+;
+STATCOR 
+	:sllaveizq  STATCORPRIMA  {}
+;
+STATCORPRIMA
+	: LI 	sllaveder			{}		
+    |   	sllaveder		 	{}
+;
+
+LI
+	:LI DECLARACION 				{}
+	|DECLARACION					{}
+;
+DECLARACION
+	: TIPO_DATO tkidentificador sigual VALOR spuntocoma
+	 {}
+;
+
+TIPO_DATO
+	:rint		{}
+	|rbool		{}
+	|rfloat		{}
+	|rstring	{}
+	|rchar		{}
+;
+
+VALOR 
+	:tkstring
+	| rfalse	
+	| rtrue	
+	| EXPRESION	
+;
+
+EXPRESION 
+	:EXPRESION smas EXPRESION
+	{}
+	|EXPRESION smenos EXPRESION
+	{}
+	|EXPRESION spor EXPRESION
+	{}
+	|EXPRESION sdiv EXPRESION
+	{}
+	|EXPRESION sor 	EXPRESION
+	{}
+	|EXPRESION sand EXPRESION	
+	{}
 	|tkidentificador 
-	//{$$ = new Primitivo.Primitivo("Id", $1, @1.first_line, @1.first_column); }
+	{
+		console.log('estamos en identificador');
+		$$=new Primitivo('id',$1,@1.first_line,@1.first_column);
+	}
+	|tkflotante 
+	{
+		console.log('estamos en Punto flotante');
+		$$=new Primitivo('float',$1,@1.first_line,@1.first_column);
+	}	
+	|sparizq EXPRESION sparder 
+	{
+				
+	}
+	|smenos EXPRESION %prec UMENOS 
+	{}
 ;
 
-*/
 
+//---------------------------Gramatica Original
 /*
 INI
 	: INSTRUCCIONES EOF {}
@@ -189,6 +260,7 @@ LI
 SENTENCIA_CONTROL
 	:IF	{}
 ;
+
 IF  : rif sparizq EXPRESION sparder STATCOR  OTHERELSE
 		{}
 	| rif sparizq EXPRESION sparder STATCOR  LELSEIF
@@ -212,9 +284,8 @@ STATCORPRIMA
 	: LI 	sllaveder			{}		
     |   	sllaveder		 	{}
 ;
-EXPRESION
-	:tkidentificador
-;
+
+
 SENTENCIA_REPETICION
 	:rfor sparizq spuntocoma EXPRESION spuntocoma EXPRESION sparder sllaveizq LI sllaveder
 		{}
@@ -239,12 +310,46 @@ TIPO_DATO
 ;
 
 DECLARACION
-	: TIPO_DATO tkidentificador sigual
-	 {console.log("prueba");  }//Falta agregar aca xd
+	: TIPO_DATO tkidentificador sigual VALOR spuntocoma
+	 {}
 ;
 
 MODIFICADOR
 	:rpublic 	{$$=$1}
 	|rprivate	{$$=$1}
 ;
+
+VALOR 
+	:tkstring
+	| rfalse	
+	| rtrue	
+	| EXPRESION	
+;
+
+
+EXPRESION 
+	:EXPRESION smas EXPRESION
+	{}
+	|EXPRESION smenos EXPRESION
+	{}
+	|EXPRESION spor EXPRESION
+	{}
+	|EXPRESION sdiv EXPRESION
+	{}
+	|EXPRESION sor 	EXPRESION
+	{}
+	|EXPRESION sand EXPRESION	
+	{}
+	|tkidentificador 
+	{}
+	|tkentero 
+	{}
+	|tkflotante 
+	{}
+	|sparizq EXPRESION sparder 
+	{}
+	|smenos EXPRESION %prec UMENOS 
+	{}
+;
+
 */

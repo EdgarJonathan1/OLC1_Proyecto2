@@ -1,18 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Primitivo = void 0;
-class Primitivo {
-    constructor(tipo, valor, fl, cl) {
-        this.line = 0;
-        this.column = 0;
+const Expression_1 = require("./Expression");
+const Retorno_1 = require("./Retorno");
+class Primitivo extends Expression_1.Expression {
+    constructor(tipo, valor, line, column) {
+        super(line, column);
         this.tipo = tipo;
         this.valor = valor;
-        this.fila = fl;
-        this.columna = cl;
-        // console.log("Primitivo ");
     }
     translate() {
-        throw new Error("Method not implemented.");
+        return { value: this.valor, type: Retorno_1.Type.STRING };
     }
     ast() {
         throw new Error("Method not implemented.");
