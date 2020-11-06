@@ -5,7 +5,8 @@
 /* Definición Léxica */
 %{
     //var AST = require("../AST/Entornos/AST");
-	const {Primitivo} = require('../Interprete/Expression/Primitivo');
+	const {Nodo} = require('../Interprete/Nodo');
+	const tbl_error=[];
 	
 %}
 %lex
@@ -110,96 +111,261 @@
 
 INI
 	:LISTA_IF  EOF 
-	{} 
+	{
+		$$ = new Nodo("INI","");
+		$$.add($1);
+
+		return {ast:$$,tbl:tbl_error}
+	} 
 ;
 
 LISTA_IF
 	:LISTA_IF IF
-	{}
+	{
+		$1.add($2);
+		$$ = $1;
+	}
 	|IF
-	{}
+	{
+		$$ = new Nodo("LISTA_IF","");
+		$$.add($1);
+	}
 ;
 
-IF  : rif sparizq EXPRESION sparder STATCOR  OTHERELSE
-		{}
+IF  : rif sparizq EXPRESION sparder  STATCOR  OTHERELSE
+	{
+		$$ = new Nodo("IF","");
+		$$.add($3);
+		$$.add($5);
+		$$.add($6);
+	}
     | rif sparizq EXPRESION sparder STATCOR 
-		{}
+	{
+		$$ = new Nodo("IF","");
+		$$.add($3);
+		$$.add($5);
+	}
+
 ;
 OTHERELSE 
 	: LELSEIF relse STATCOR	
-	{}
+	{
+		$$ = new Nodo("OTHERELSE","");
+		$$.add($1);
+		$$.add(new Nodo($2,"relse"));
+		$$.add($3);
+	}
     |         relse STATCOR	
-	{}	
+	{
+		$$ = new Nodo("OTHERELSE","");
+		$$.add(new Nodo($1,"relse"));
+		$$.add($2);
+	}	
 	| LELSEIF  	
-	{}
+	{
+		$$ = new Nodo("OTHERELSE","");
+		$$.add($1);
+	}
 ;
-LELSEIF : LELSEIF ELSEIF	{}
-        | ELSEIF			{}
+LELSEIF 
+	: LELSEIF ELSEIF	
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+    | ELSEIF			
+	{
+		$$ = new Nodo("LELSEIF","");
+		$$.add($1);
+	}
 ;
 ELSEIF  
-	: relse rif sparizq EXPRESION sparder  STATCOR	{}
+	: relse rif sparizq EXPRESION sparder  STATCOR	
+	{
+		$$ = new Nodo("ELSEIF");
+		$$.add($4);
+	}
 ;
 STATCOR 
-	:sllaveizq  STATCORPRIMA  {}
+	:sllaveizq  STATCORPRIMA  
+	{
+		$$ = new Nodo("STATCOR","");
+		$$.add(new Nodo($1,"llaveizq"));
+		$$.add($2);
+	}
 ;
 STATCORPRIMA
-	: LI 	sllaveder			{}		
-    |   	sllaveder		 	{}
+	: LI 	sllaveder			
+	{
+		$1.add($2);
+		$$ = $1;
+	}		
+    |   	sllaveder		 	
+	{
+		$$ = new Nodo("STATCORPRIMA","");
+		$$.add(new Nodo($1,"llaveder"));
+	}
+;
+STATCORPRIMA
+	: LI 	sllaveder			
+	{
+		$$ = new Nodo("STATCORPRIMA","");
+		$$.add($1);
+		$$.add($2,"llaveder");
+	}		
+    | sllaveder		 	
+	{
+		$$ = new Nodo("STATCORPRIMA","");
+		$$.add($1,"llaveder");
+	}
 ;
 
 LI
-	:LI DECLARACION 				{}
-	|DECLARACION					{}
+	:LI DECLARACION 				
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|DECLARACION					
+	{
+		$$ = new Nodo("LI","");
+		$$.add($1);
+	}
 ;
+
 DECLARACION
 	: TIPO_DATO tkidentificador sigual VALOR spuntocoma
-	 {}
+	 {
+		$$ = new Nodo("DECLARACION","");
+		$$.add($1);
+		$$.add(new Nodo($2,"identificador"));
+		$$.add(new Nodo($3,"igual"));
+		$$.add($4);
+		$$.add(new Nodo($1,"puntocoma"));
+	 }
 ;
 
 TIPO_DATO
-	:rint		{}
-	|rbool		{}
-	|rfloat		{}
-	|rstring	{}
-	|rchar		{}
+	:rint	
+	{
+		$$ = new Nodo("TIPO_DATO","");
+		$$.add(new Nodo($1,"int"));
+	}	
+	|rbool	
+	{
+		$$ = new Nodo("TIPO_DATO","");
+		$$.add(new Nodo($1,"bool"));
+	}	
+	|rfloat	
+	{
+		$$ = new Nodo("TIPO_DATO","");
+		$$.add(new Nodo($1,"float"));
+	}	
+	|rstring	
+	{
+		$$ = new Nodo("TIPO_DATO","");
+		$$.add(new Nodo($1,"string"));
+	}	
+	|rchar	
+	{
+		$$ = new Nodo("TIPO_DATO","");
+		$$.add(new Nodo($1,"char"));
+	}	
+
 ;
 
 VALOR 
 	:tkstring
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,"string"));
+	}
 	| rfalse	
-	| rtrue	
-	| EXPRESION	
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,"false"));
+	}
+	| rtrue		
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,"true"));
+	}
+	| EXPRESION
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add($1);
+	}
 ;
 
 EXPRESION 
-	:EXPRESION smas EXPRESION
-	{}
-	|EXPRESION smenos EXPRESION
-	{}
-	|EXPRESION spor EXPRESION
-	{}
-	|EXPRESION sdiv EXPRESION
-	{}
-	|EXPRESION sor 	EXPRESION
-	{}
+	:EXPRESION sor 	EXPRESION
+	{	
+		$$ = new Nodo("E","")
+		$$.add($1);
+		$$.add(new Nodo($2,"or"));
+		$$.add($3);
+	}
 	|EXPRESION sand EXPRESION	
-	{}
+	{
+		$$ = new Nodo("E","")
+		$$.add($1);
+		$$.add(new Nodo($2,"and"));
+		$$.add($3);
+	}
+	|EXPRESION smas EXPRESION
+	{	
+		$$ = new Nodo("E","")
+		$$.add($1);
+		$$.add(new Nodo($2,"suma"));
+		$$.add($3);
+	}
+	|EXPRESION smenos EXPRESION
+	{	
+		$$ = new Nodo("E","")
+		$$.add($1);
+		$$.add(new Nodo($2,"resta"));
+		$$.add($3);
+	}
+	|EXPRESION spor EXPRESION
+	{	
+		$$ = new Nodo("E","")
+		$$.add($1);
+		$$.add(new Nodo($2,"multiplicacion"));
+		$$.add($3);
+	}
+	|EXPRESION sdiv EXPRESION
+	{	
+		$$ = new Nodo("E","")
+		$$.add($1);
+		$$.add(new Nodo($2,"division"));
+		$$.add($3);
+	}
 	|tkidentificador 
 	{
-		console.log('estamos en identificador');
-		$$=new Primitivo('id',$1,@1.first_line,@1.first_column);
+		$$ = new Nodo("E","")
+		$$.add(new Nodo($1,"id"));
 	}
 	|tkflotante 
 	{
-		console.log('estamos en Punto flotante');
-		$$=new Primitivo('float',$1,@1.first_line,@1.first_column);
+		$$ = new Nodo("E","")
+		$$.add(new Nodo($1,"flotante"));
 	}	
 	|sparizq EXPRESION sparder 
 	{
-				
-	}
+		$$ = new Nodo("E","")
+		$$.add($2);
+	}	
 	|smenos EXPRESION %prec UMENOS 
-	{}
+	{
+		$$ = new Nodo("E","")
+		$$.add($2);
+	}
+	| error 
+	{
+		msg = "Error Sintactico en:"+$1+"ERROR"+$2+" en la linea:" + this._$.first_line + " en la Columna: " + this._$.first_column;
+		tbl_error.push(msg);
+		console.log(msg);
+	}
 ;
 
 

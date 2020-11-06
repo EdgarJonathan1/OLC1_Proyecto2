@@ -1,5 +1,6 @@
 var contador = 0;
 var contenidoAST = "";
+var host = "http://192.168.1.13:3000/user/"
 
 function get_cont() {
     return contador++;
@@ -24,7 +25,10 @@ function linkedlist(pestana, nombre) {
     lista.push(obj);
 }
 
+/*-------------------------------------------------------------------------------------------------------*/
 /*--------------------------------------Funcion Al Cambiar Ventana---------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
+
 function index(pestanias, pestania) {
     var id = pestania.replace('pestana', '');
     set_vent('textarea' + id);
@@ -112,7 +116,11 @@ function add_tab() {
     });
 }
 
+/*------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------File---------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
 function AbrirArchivo(files) {
     var file = files[0];
     var reader = new FileReader();
@@ -158,23 +166,21 @@ function getReporte() {
 }
 
 function hacerPost() {
+    
     var ta = document.getElementById(get_vent());
     var contenido = ta.value;
-    //alert(contenido);
-    //contenido = contenido.replace(/(\r\n|\n|\r)/gm, '');
     contenido = contenido.replace(/\"/gm, '\'');
     contenido = contenido.replace(/\\\'/gm, '');
     //alert(contenido)
     var enviar = {
         texto: contenido
     };
+
     var data = new FormData();
     data.append("json", JSON.stringify(enviar));
-    console.log("enviando: " + JSON.stringify(enviar))
-   
-   //http://192.168.1.13:3000/user/prueba 
+    console.log("enviando: " + JSON.stringify(enviar))   
 
-    fetch("http://192.168.1.13:3000/user/prueba", {
+    fetch("http://192.168.1.3:3000/user/prueba", {
             method: "POST",
             headers: {
                 'Accept': 'application/json, application/json, */*',
@@ -186,43 +192,18 @@ function hacerPost() {
         .then(data => {
             console.log(data.responde);
             var consoleJava = document.getElementById('consoleJavascript');
-            consoleJava.append(data.responde);
-            //consoleJava.insertAdjacentText(data.responde);
-            //console.log("recibiendo: " + data.texto);
-            //this.contenidoAST = data.texto;
-            //console.log("contenido error:" + data.error);
-            //var tabla = document.getElementById('tabla');
-            //tabla.innerHTML = data.error;
+            //consoleJava.append(data.responde);
+            consoleJava.value(data.responde);
         }
     )
-  
 
-/*   
-    fetch("http://localhost:8080/setContenido/", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json, application/json, * /*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(enviar)
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log("recibiendo: " + data.texto);
-            this.contenidoAST = data.texto;
-            console.log("contenido error:" + data.error);
-            var tabla = document.getElementById('tabla');
-            tabla.innerHTML = data.error;
-        }
-    )
- */ 
+    var grafo = document.querySelector("#graph");
+    console.log(document.querySelector("#graph"));
+    d3.select(d3.querySelector("#graph")).graphviz()
+            .renderDot('digraph  {a -> b}');
+        
+    console.log("SI llegamos hasta aca jonathan");
   
-    //.then(function(data) { /*return res.json(); */ console.log(data) })
-    //.then(function(data) { alert((data)) })
-    //$("#jstree_demo_div").jstree().settings.core.data = this.contenidoAST;
-    //$("#jstree_demo_div").jstree().refresh(true);
-    //$("#jstree_demo_div").jstree().open_all(null, 200);
-
 
 }
 

@@ -19,5 +19,5 @@ func main() {
 
 	http.HandleFunc("/", index)
 	fmt.Printf("servidor escuchando en: http//localhost:8000/")
-	http.ListenAndServe("192.168.1.13:8000", nil)
+	http.ListenAndServe("192.168.1.3:8000", nil)
 }
