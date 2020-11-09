@@ -7,13 +7,14 @@ const parse = require('../../../build/ParserJavascript/Analisis/gramatica');
 class Servicio {
 
 
-    prueba(req: Request, res: Response)
+    Javascript(req: Request, res: Response)
     {
 
         try {
+            
             //haciendo el parsing con jison
             var tree = parse.parse(req.body.texto);
-            console.log(req.body);
+            //console.log(req.body);
             console.log(tree);
 
             //recorriendo el arbol para crear el dot

@@ -26,6 +26,7 @@ export class TourTree {
                 this.id++;
             }
 
+
             //console.log(nodo);
             console.log(nodo.id + '[label= "' + nodo.valor + '" fillcolor="#d62728"];\n');
             this.result += nodo.id + '[label= "' + nodo.valor + '" fillcolor="#d62728"];\n';

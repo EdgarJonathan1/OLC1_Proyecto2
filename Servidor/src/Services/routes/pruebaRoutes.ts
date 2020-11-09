@@ -11,8 +11,8 @@ class UserRoutes{
     }
 
     config(): void {
-        this.router.post('/prueba',servicio.prueba);
-        this.router.get('/prueba',servicio.prueba);
+        this.router.post('/Javascript',servicio.Javascript);
+        //this.router.get('/prueba',servicio.prueba);
     }
 
 }

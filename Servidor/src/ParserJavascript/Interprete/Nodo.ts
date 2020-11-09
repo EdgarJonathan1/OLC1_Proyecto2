@@ -13,7 +13,7 @@ export class Nodo {
     } 
 
     execdot(){
-                spawn('dot', ['-Tpdf', '-o', './AST.pdf','codigo.dot']);
+                spawn('dot', ['-Tsvg', '-o', './AST.svg','codigo.dot']);
     }
   
     getValor(){

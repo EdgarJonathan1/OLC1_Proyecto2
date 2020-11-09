@@ -1,6 +1,6 @@
 var contador = 0;
 var contenidoAST = "";
-var host = "http://192.168.1.13:3000/user/"
+var host = "http://192.168.1.13:3000/Ana/"
 
 function get_cont() {
     return contador++;
@@ -164,7 +164,6 @@ function getReporte() {
             //console.log(data.texto);
         })
 }
-
 function hacerPost() {
     
     var ta = document.getElementById(get_vent());
@@ -178,9 +177,9 @@ function hacerPost() {
 
     var data = new FormData();
     data.append("json", JSON.stringify(enviar));
-    console.log("enviando: " + JSON.stringify(enviar))   
+    //console.log("enviando: " + JSON.stringify(enviar))   
 
-    fetch("http://192.168.1.3:3000/user/prueba", {
+    fetch(host+"Javascript", {
             method: "POST",
             headers: {
                 'Accept': 'application/json, application/json, */*',
@@ -193,19 +192,20 @@ function hacerPost() {
             console.log(data.responde);
             var consoleJava = document.getElementById('consoleJavascript');
             //consoleJava.append(data.responde);
-            consoleJava.value(data.responde);
+            //consoleJava.value(data.responde);
         }
     )
 
-    var grafo = document.querySelector("#graph");
-    console.log(document.querySelector("#graph"));
-    d3.select(d3.querySelector("#graph")).graphviz()
-            .renderDot('digraph  {a -> b}');
+    //var grafo = document.querySelector("#graph");
+    //console.log(document.querySelector("#graph"));
+    //d3.select(d3.querySelector("#graph")).graphviz()
+    //        .renderDot('digraph  {a -> b}');
         
     console.log("SI llegamos hasta aca jonathan");
-  
 
-}
+
+} 
+
 
 function metodo_hacerPost() {
     hacerPost();

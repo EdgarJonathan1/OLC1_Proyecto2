@@ -24,11 +24,11 @@ const TourTree_1 = require("../../ParserJavascript/Interprete/TourTree");
 const fs = __importStar(require("fs"));
 const parse = require('../../../build/ParserJavascript/Analisis/gramatica');
 class Servicio {
-    prueba(req, res) {
+    Javascript(req, res) {
         try {
             //haciendo el parsing con jison
             var tree = parse.parse(req.body.texto);
-            console.log(req.body);
+            //console.log(req.body);
             console.log(tree);
             //recorriendo el arbol para crear el dot
             var tour = new TourTree_1.TourTree();

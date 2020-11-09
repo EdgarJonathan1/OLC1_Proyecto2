@@ -8,8 +8,8 @@ class UserRoutes {
         this.config();
     }
     config() {
-        this.router.post('/prueba', pruebaCtl_1.servicio.prueba);
-        this.router.get('/prueba', pruebaCtl_1.servicio.prueba);
+        this.router.post('/Javascript', pruebaCtl_1.servicio.Javascript);
+        //this.router.get('/prueba',servicio.prueba);
     }
 }
 const userRoutes = new UserRoutes();

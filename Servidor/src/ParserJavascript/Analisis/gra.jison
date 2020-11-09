@@ -157,7 +157,6 @@ Sentencia   : SImprimir {}
             | SFor {}
             | SIf {}
             | STransferencia {}  /* conflicto por break se puede hacer sentencias diferentes para case*/
-
             | SLlamada {}
             | SFuncion {}
 

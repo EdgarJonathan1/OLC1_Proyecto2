@@ -28,7 +28,7 @@ class Server {
     }
 
     routes(): void {
-        this.app.use('/user', userRoutes);
+        this.app.use('/Ana', userRoutes);
         
     }
 

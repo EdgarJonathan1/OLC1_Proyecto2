@@ -108,15 +108,227 @@
 /*****************************************************************************************************/
 %% /******************************* Definición de la gramática ***************************************/
 /*****************************************************************************************************/
-
 INI
-	:LISTA_IF  EOF 
+	: INSTRUCCIONES EOF 
 	{
 		$$ = new Nodo("INI","");
 		$$.add($1);
 
 		return {ast:$$,tbl:tbl_error}
-	} 
+	}
+;
+
+INSTRUCCIONES
+	: INSTRUCCIONES INSTRUCCION 	
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	| INSTRUCCION					
+	{
+		$$ = new Nodo("INSTRUCCIONES","");
+		$$.add($1);
+	}
+;
+
+INSTRUCCION
+	: MODIFICADOR CLASE_INTERFACE tkidentificador sllaveizq DECLARACION_METODO sllaveder 
+	{
+		$$ = new Nodo("CLASE_INTERFACE","");
+		$$.add($1);
+		$$.add($2);
+		$$.add(new Nodo($3,""));
+		$$.add(new Nodo($4,""));
+		$$.add($5);
+		$$.add(new Nodo($6,""));
+	}	
+	
+	| MODIFICADOR CLASE_INTERFACE tkidentificador sllaveizq  sllaveder 
+	{
+		$$ = new Nodo("CLASE_INTERFACE","");
+		$$.add($1);
+		$$.add($2);
+		$$.add(new Nodo($3,""));
+		$$.add(new Nodo($4,""));
+		$$.add(new Nodo($5,""));
+	}		
+;
+
+MODIFICADOR
+	:rpublic 	{$$=new Nodo($1,"");}
+	|rprivate	{$$=new Nodo($2,"");}
+;
+
+CLASE_INTERFACE
+	:rclass		
+	{
+		$$ = new Nodo($1,"");
+	}	
+	|rinterface 
+	{
+		$$ = new Nodo($1,"");
+	}	
+;
+
+DECLARACION_METODO
+	:DECLARACION_METODO DECLARACION 
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|DECLARACION
+	{
+		$$ = new Nodo("DECLARACION_METODO","");
+		$$.add($1);
+	}
+	|DECLARACION_METODO ASIGNACION
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|ASIGNACION
+	{
+		$$ = new Nodo("DECLARACION_METODO","");
+		$$.add($1);
+	}
+	|DECLARACION_METODO METODO
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|METODO
+	{
+		$$ = new Nodo("DECLARACION_METODO","");
+		$$.add($1);
+	}
+;
+
+METODO
+	:MODIFICADOR TIPO_DATO tkidentificador sparizq  PARAMETROS STATCOR
+	{
+		$$ = new Nodo("METODO","");
+		$$.add($1);
+		$$.add($2);
+		$$.add(new Nodo($3,""));
+		$$.add(new Nodo($4,""));
+		$$.add($5);
+		$$.add($6);
+	}	
+	|MODIFICADOR rvoid tkidentificador sparizq  PARAMETROS STATCOR
+	{
+		$$ = new Nodo("METODO","");
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add(new Nodo($3,""));
+		$$.add(new Nodo($4,""));
+		$$.add($5);
+		$$.add($6);
+	}
+;
+
+PARAMETROS
+	: 			sparder   	
+	{
+		$$ = new Nodo("PARAMETROS","");
+		$$.add(new Nodo($1,""));
+	}
+
+	}
+	|  LIST_PAR sparder   	
+	{
+		$$ = new Nodo("PARAMETROS","");
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+	}
+;
+
+LIST_PAR
+	:LIST_PAR scoma TIPO_DATO tkidentificador 	
+	{
+		$1.add($3);
+		$1.add(new Nodo($4,""));
+		$$ = $1;
+	}
+	| TIPO_DATO	tkidentificador						
+	{
+		$$ = new Nodo("LIST_PAR","");
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+	}
+;
+
+LI
+	:LI ASIGNACION 				
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|ASIGNACION
+	{
+		$$ = new Nodo("LI","");
+		$$.add($1);
+	}
+	|LI DECLARACION 				
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|DECLARACION
+	{
+		$$ = new Nodo("LI","");
+		$$.add($1);
+	}
+	|LI SENTENCIA_REPETICION
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|SENTENCIA_REPETICION
+	{
+		$$ = new Nodo("LI","");
+		$$.add($1);
+	}
+	|LI SENTENCIA_CONTROL
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|SENTENCIA_CONTROL
+	{
+		$$ = new Nodo("LI","");
+		$$.add($1);
+	}
+;
+
+SENTENCIA_CONTROL
+	:IF	
+	{
+		$$ = new Nodo("SENTENCIA_CONTROL","");
+		$$.add($1);
+	}
+;
+
+SENTENCIA_REPETICION
+	:rfor sparizq  EXPRESION spuntocoma	EXPRESION spuntocoma EXPRESION sparder  STATCOR 
+	{
+		$$ = new Nodo("FOR","");
+		$$.add($3);
+		$$.add($5);
+		$$.add($7);
+		$$.add($10);
+	}
+	|rwhile sparizq EXPRESION sparder  STATCOR 
+	{
+		$$ = new Nodo("WHILE","");
+		$$.add($3);
+		$$.add($6);
+	}
+	|rdo sllaveizq STATCOR sllaveder rwhile sparizq EXPRESION sparder spuntocoma
+	{
+		$$ = new Nodo("DO_WHILE","");
+		$$.add($3);
+		$$.add($7);
+	}
 ;
 
 LISTA_IF
@@ -147,6 +359,7 @@ IF  : rif sparizq EXPRESION sparder  STATCOR  OTHERELSE
 	}
 
 ;
+
 OTHERELSE 
 	: LELSEIF relse STATCOR	
 	{
@@ -167,6 +380,7 @@ OTHERELSE
 		$$.add($1);
 	}
 ;
+
 LELSEIF 
 	: LELSEIF ELSEIF	
 	{
@@ -190,59 +404,61 @@ STATCOR
 	:sllaveizq  STATCORPRIMA  
 	{
 		$$ = new Nodo("STATCOR","");
-		$$.add(new Nodo($1,"llaveizq"));
+		$$.add(new Nodo($1,""));
 		$$.add($2);
-	}
+	}	
 ;
-STATCORPRIMA
-	: LI 	sllaveder			
-	{
-		$1.add($2);
-		$$ = $1;
-	}		
-    |   	sllaveder		 	
-	{
-		$$ = new Nodo("STATCORPRIMA","");
-		$$.add(new Nodo($1,"llaveder"));
-	}
-;
+
 STATCORPRIMA
 	: LI 	sllaveder			
 	{
 		$$ = new Nodo("STATCORPRIMA","");
 		$$.add($1);
-		$$.add($2,"llaveder");
+		$$.add(new Nodo($2,""));
 	}		
     | sllaveder		 	
 	{
 		$$ = new Nodo("STATCORPRIMA","");
-		$$.add($1,"llaveder");
-	}
-;
-
-LI
-	:LI DECLARACION 				
-	{
-		$1.add($2);
-		$$ = $1;
-	}
-	|DECLARACION					
-	{
-		$$ = new Nodo("LI","");
-		$$.add($1);
+		$$.add(new Nodo($1,""));
 	}
 ;
 
 DECLARACION
-	: TIPO_DATO tkidentificador sigual VALOR spuntocoma
+	: TIPO_DATO LISTA_ID  spuntocoma
 	 {
 		$$ = new Nodo("DECLARACION","");
 		$$.add($1);
-		$$.add(new Nodo($2,"identificador"));
-		$$.add(new Nodo($3,"igual"));
-		$$.add($4);
-		$$.add(new Nodo($1,"puntocoma"));
+		$$.add($2);
 	 }
+	| TIPO_DATO LISTA_ID sigual VALOR spuntocoma
+	 {
+		$$ = new Nodo("DECLARACION","");
+		$$.add($1);
+		$$.add($2);
+		$$.add($4);
+	 }
+;
+
+ASIGNACION
+	:LISTA_ID sigual VALOR spuntocoma
+	{
+		$$ = new Nodo("ASIGNACION","");
+		$$.add($1);
+		$$.add($3);
+	 }
+;
+
+LISTA_ID
+	: LISTA_ID scoma tkidentificador
+	{
+		$1.add(new Nodo($3,"identificador"));
+		$$=$1;			
+	}
+	|tkidentificador
+	{
+		$$ = new Nodo("LISTA_ID","");
+		$$.add(new Nodo($1,"identificador"));
+	}
 ;
 
 TIPO_DATO
@@ -360,162 +576,14 @@ EXPRESION
 		$$ = new Nodo("E","")
 		$$.add($2);
 	}
-	| error 
-	{
-		msg = "Error Sintactico en:"+$1+"ERROR"+$2+" en la linea:" + this._$.first_line + " en la Columna: " + this._$.first_column;
-		tbl_error.push(msg);
-		console.log(msg);
-	}
-;
-
-
-//---------------------------Gramatica Original
-/*
-INI
-	: INSTRUCCIONES EOF {}
-;
-
-INSTRUCCIONES
-	: INSTRUCCIONES INSTRUCCION 	{}
-	| INSTRUCCION					{}
-;
-
-INSTRUCCION
-	: MODIFICADOR CLASE_INTERFACE tkidentificador sllaveizq DECLARACION_METODO sllaveder 
-	{}	
+	/*
 	
-	| MODIFICADOR CLASE_INTERFACE tkidentificador sllaveizq  sllaveder 
-	{}		
-;
+	//| error 
+	//{
+		//msg = "Error Sintactico en:"+$1+"ERROR"+$1+" en la linea:" + this._$1.first_line + " en la Columna: " + this._$1.first_column;
+		//tbl_error.push(msg);
+		//console.log(msg);
+	//}
 
-
-CLASE_INTERFACE
-	:rclass		{$$=$1}	
-	|rinterface {$$=$1}
+	*/
 ;
-
-DECLARACION_METODO
-	:DECLARACION_METODO DECLARACION {}
-	|DECLARACION_METODO METODO		{}	
-	|DECLARACION					{}
-	|METODO							{}
-;
-
-METODO
-	:MODIFICADOR TIPO_DATO tkidentificador sparizq  PARAMETROS
-	{}	
-	|MODIFICADOR rvoid tkidentificador sparizq  PARAMETROS
-	{}
-;
-
-PARAMETROS
-	: 			sparder  STATCOR 	{}
-	| PARAMETRO sparder  STATCOR 	{}
-;
-
-LI
-	:LI DECLARACION 				{}
-	|DECLARACION					{}
-	|LI SENTENCIA_REPETICION 		{}
-	|SENTENCIA_REPETICION			{}	
-	|LI SENTENCIA_CONTROL 			{}
-	|SENTENCIA_CONTROL				{}	
-;
-
-
-SENTENCIA_CONTROL
-	:IF	{}
-;
-
-IF  : rif sparizq EXPRESION sparder STATCOR  OTHERELSE
-		{}
-	| rif sparizq EXPRESION sparder STATCOR  LELSEIF
-		{}
-    | rif sparizq EXPRESION sparder STATCOR 
-		{}
-;
-OTHERELSE : LELSEIF relse STATCOR	{}
-          |         relse STATCOR	{}
-;
-LELSEIF : LELSEIF ELSEIF	{}
-        | ELSEIF			{}
-;
-ELSEIF  
-	: relse rif sparizq EXPRESION sparder  STATCOR	{}
-;
-STATCOR 
-	:sllaveizq  STATCORPRIMA  {}
-;
-STATCORPRIMA
-	: LI 	sllaveder			{}		
-    |   	sllaveder		 	{}
-;
-
-
-SENTENCIA_REPETICION
-	:rfor sparizq spuntocoma EXPRESION spuntocoma EXPRESION sparder sllaveizq LI sllaveder
-		{}
-	|rwhile sparizq EXPRESION sparder sllaveizq LI sllaveder
-		{}
-	|rdo sllaveizq LI sllaveder rwhile sparizq EXPRESION sparder spuntocoma
-		{}
-;
-
-PARAMETRO
-	: PARAMETRO scoma TIPO_DATO tkidentificador 	{}
-	| TIPO_DATO	tkidentificador						{}
-;
-
-
-TIPO_DATO
-	:rint		{}
-	|rbool		{}
-	|rfloat		{}
-	|rstring	{}
-	|rchar		{}
-;
-
-DECLARACION
-	: TIPO_DATO tkidentificador sigual VALOR spuntocoma
-	 {}
-;
-
-MODIFICADOR
-	:rpublic 	{$$=$1}
-	|rprivate	{$$=$1}
-;
-
-VALOR 
-	:tkstring
-	| rfalse	
-	| rtrue	
-	| EXPRESION	
-;
-
-
-EXPRESION 
-	:EXPRESION smas EXPRESION
-	{}
-	|EXPRESION smenos EXPRESION
-	{}
-	|EXPRESION spor EXPRESION
-	{}
-	|EXPRESION sdiv EXPRESION
-	{}
-	|EXPRESION sor 	EXPRESION
-	{}
-	|EXPRESION sand EXPRESION	
-	{}
-	|tkidentificador 
-	{}
-	|tkentero 
-	{}
-	|tkflotante 
-	{}
-	|sparizq EXPRESION sparder 
-	{}
-	|smenos EXPRESION %prec UMENOS 
-	{}
-;
-
-*/

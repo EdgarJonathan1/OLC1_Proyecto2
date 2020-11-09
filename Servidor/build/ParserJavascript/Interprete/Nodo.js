@@ -10,7 +10,7 @@ class Nodo {
         this.hijos = [];
     }
     execdot() {
-        child_process_1.spawn('dot', ['-Tpdf', '-o', './AST.pdf', 'codigo.dot']);
+        child_process_1.spawn('dot', ['-Tsvg', '-o', './AST.svg', 'codigo.dot']);
     }
     getValor() {
         return this.valor;

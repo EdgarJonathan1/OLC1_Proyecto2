@@ -23,7 +23,7 @@ class Server {
         this.app.use(express_1.default.urlencoded({ extended: false }));
     }
     routes() {
-        this.app.use('/user', pruebaRoutes_1.default);
+        this.app.use('/Ana', pruebaRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
