@@ -55,6 +55,8 @@
 "("					return 'sparizq';
 ")"					return 'sparder';
 
+"++"				return 'adicion';
+"--"				return 'sustraccion';
 "+="				return 'smasigual';
 "-="				return 'smenosigual';
 "*="				return 'sporigual';
@@ -75,6 +77,7 @@
 "<"					return 'smenque';
 ">"					return 'smayque';
 "="					return 'sigual';
+"^"					return 'sxor';
 
 
 "!"					return 'snot';
@@ -214,6 +217,24 @@ METODO
 		$$.add($5);
 		$$.add($6);
 	}	
+	|TIPO_DATO tkidentificador sparizq  PARAMETROS STATCOR
+	{
+		$$ = new Nodo("METODO","");
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add(new Nodo($3,""));
+		$$.add($4);
+		$$.add($5);
+	}	
+	| rvoid tkidentificador sparizq  PARAMETROS STATCOR
+	{
+		$$ = new Nodo("METODO","");
+		$$.add(new Nodo($2,""));
+		$$.add(new Nodo($3,""));
+		$$.add(new Nodo($4,""));
+		$$.add($5);
+		$$.add($6);
+	}
 	|MODIFICADOR rvoid tkidentificador sparizq  PARAMETROS STATCOR
 	{
 		$$ = new Nodo("METODO","");
@@ -308,22 +329,48 @@ SENTENCIA_CONTROL
 	}
 ;
 
+DECLARA_ASIGN
+	:DECLARACION
+	{
+		$$ = $1
+	}
+	|ASIGNACION
+	{
+		$$ = $1;
+	}
+;
+
+EXP_AUMENTO
+	:tkidentificador  adicion
+	{
+		$$ = new Nodo("EXP_AUMENTO","");
+		$$.add(new Nodo($1,""));
+		$$.add(new Nodo($2,""));
+	}
+	|tkidentificador sustraccion
+	{
+		$$ = new Nodo("EXP_AUMENTO","");
+		$$.add(new Nodo($1,""));
+		$$.add(new Nodo($2,""));
+	}
+;
+
 SENTENCIA_REPETICION
-	:rfor sparizq  EXPRESION spuntocoma	EXPRESION spuntocoma EXPRESION sparder  STATCOR 
+	:rfor sparizq  DECLARA_ASIGN EXP_REL spuntocoma EXP_AUMENTO sparder  STATCOR 
 	{
 		$$ = new Nodo("FOR","");
 		$$.add($3);
-		$$.add($5);
-		$$.add($7);
-		$$.add($10);
+		$$.add($4);
+		$$.add($6);
+		$$.add($8);
 	}
-	|rwhile sparizq EXPRESION sparder  STATCOR 
+	|rwhile sparizq EXP_NUM sparder  STATCOR 
 	{
 		$$ = new Nodo("WHILE","");
 		$$.add($3);
 		$$.add($6);
 	}
-	|rdo sllaveizq STATCOR sllaveder rwhile sparizq EXPRESION sparder spuntocoma
+	|rdo sllaveizq STATCOR sllaveder rwhile sparizq EXP_NUM sparder spuntocoma
 	{
 		$$ = new Nodo("DO_WHILE","");
 		$$.add($3);
@@ -344,14 +391,14 @@ LISTA_IF
 	}
 ;
 
-IF  : rif sparizq EXPRESION sparder  STATCOR  OTHERELSE
+IF  : rif sparizq EXP_LOG sparder  STATCOR  OTHERELSE
 	{
 		$$ = new Nodo("IF","");
 		$$.add($3);
 		$$.add($5);
 		$$.add($6);
 	}
-    | rif sparizq EXPRESION sparder STATCOR 
+    | rif sparizq EXP_LOG sparder STATCOR 
 	{
 		$$ = new Nodo("IF","");
 		$$.add($3);
@@ -365,13 +412,13 @@ OTHERELSE
 	{
 		$$ = new Nodo("OTHERELSE","");
 		$$.add($1);
-		$$.add(new Nodo($2,"relse"));
+		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}
     |         relse STATCOR	
 	{
 		$$ = new Nodo("OTHERELSE","");
-		$$.add(new Nodo($1,"relse"));
+		$$.add(new Nodo($1,""));
 		$$.add($2);
 	}	
 	| LELSEIF  	
@@ -394,7 +441,7 @@ LELSEIF
 	}
 ;
 ELSEIF  
-	: relse rif sparizq EXPRESION sparder  STATCOR	
+	: relse rif sparizq EXP_LOG sparder  STATCOR	
 	{
 		$$ = new Nodo("ELSEIF");
 		$$.add($4);
@@ -487,7 +534,6 @@ TIPO_DATO
 		$$ = new Nodo("TIPO_DATO","");
 		$$.add(new Nodo($1,"char"));
 	}	
-
 ;
 
 VALOR 
@@ -506,84 +552,154 @@ VALOR
 		$$ = new Nodo("VALOR","")
 		$$.add(new Nodo($1,"true"));
 	}
-	| EXPRESION
+	| EXP_NUM
 	{
 		$$ = new Nodo("VALOR","")
 		$$.add($1);
 	}
 ;
 
-EXPRESION 
-	:EXPRESION sor 	EXPRESION
-	{	
-		$$ = new Nodo("E","")
-		$$.add($1);
-		$$.add(new Nodo($2,"or"));
-		$$.add($3);
-	}
-	|EXPRESION sand EXPRESION	
+EXP_LOG
+	: EXP_REL sand EXP_REL     
 	{
-		$$ = new Nodo("E","")
+		$$ = new Nodo("EXP_LOG","")
 		$$.add($1);
-		$$.add(new Nodo($2,"and"));
+		$$.add(new Nodo($2,""));
 		$$.add($3);
+	}	
+	| EXP_REL sor EXP_REL 		
+	{
+		$$ = new Nodo("EXP_LOG","")
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add($3);
+	}	
+	| EXP_REL sxor EXP_REL 		
+	{
+		$$ = new Nodo("EXP_LOG","")
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add($3);
+	}	
+	| snot EXP_REL							
+	{
+		$$ = new Nodo("EXP_LOG","")
+		$$.add(new Nodo($1,""));
+		$$.add($2);
+	}	
+	| EXP_REL								
+	{
+		$$ = new Nodo("EXP_LOG","")
+		$$.add($1);
+	}	
+;
+
+EXP_REL
+	: EXP_NUM smayque EXP_NUM			
+	{
+		$$ = new Nodo("EXP_REL","")
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add($3);
+	}	
+	| EXP_NUM smenque EXP_NUM		
+	{
+		$$ = new Nodo("EXP_REL","")
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add($3);
+	}	
+	| EXP_NUM smayigque EXP_NUM	
+	{
+		$$ = new Nodo("EXP_REL","")
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add($3);
+	}	
+	| EXP_NUM smenigque EXP_NUM	
+	{
+		$$ = new Nodo("EXP_REL","")
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add($3);
+	}	
+	| EXP_NUM sdobleig EXP_NUM			
+	{
+		$$ = new Nodo("EXP_REL","")
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add($3);
+	}	
+	|EXP_NUM snoig EXP_NUM			
+	{
+		$$ = new Nodo("EXP_REL","")
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add($3);
+	}	
+;
+
+
+EXP_NUM 
+	:smenos EXP_NUM %prec UMENOS 
+	{
+		$$ = new Nodo("EXP_NUM","")
+		$$.add($2);
 	}
-	|EXPRESION smas EXPRESION
+	|EXP_NUM smas EXP_NUM
 	{	
-		$$ = new Nodo("E","")
+		$$ = new Nodo("EXP_NUM","")
 		$$.add($1);
-		$$.add(new Nodo($2,"suma"));
+		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}
-	|EXPRESION smenos EXPRESION
+	|EXP_NUM smenos EXP_NUM
 	{	
-		$$ = new Nodo("E","")
+		$$ = new Nodo("EXP_NUM","")
 		$$.add($1);
-		$$.add(new Nodo($2,"resta"));
+		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}
-	|EXPRESION spor EXPRESION
+	|EXP_NUM spor EXP_NUM
 	{	
-		$$ = new Nodo("E","")
+		$$ = new Nodo("EXP_NUM","")
 		$$.add($1);
-		$$.add(new Nodo($2,"multiplicacion"));
+		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}
-	|EXPRESION sdiv EXPRESION
+	|EXP_NUM sdiv EXP_NUM
 	{	
-		$$ = new Nodo("E","")
+		$$ = new Nodo("EXP_NUM","")
 		$$.add($1);
-		$$.add(new Nodo($2,"division"));
+		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}
+	|sparizq EXP_NUM sparder 
+	{
+		$$ = new Nodo("EXP_NUM","")
+		$$.add($2);
+	}	
 	|tkidentificador 
 	{
-		$$ = new Nodo("E","")
-		$$.add(new Nodo($1,"id"));
+		$$ = new Nodo("EXP_NUM","")
+		$$.add(new Nodo($1,""));
 	}
 	|tkflotante 
 	{
-		$$ = new Nodo("E","")
-		$$.add(new Nodo($1,"flotante"));
+		$$ = new Nodo("EXP_NUM","")
+		$$.add(new Nodo($1,""));
 	}	
-	|sparizq EXPRESION sparder 
+	|tkentero 
 	{
-		$$ = new Nodo("E","")
-		$$.add($2);
+		$$ = new Nodo("EXP_NUM","")
+		$$.add(new Nodo($1,""));
 	}	
-	|smenos EXPRESION %prec UMENOS 
-	{
-		$$ = new Nodo("E","")
-		$$.add($2);
-	}
 	/*
-	
 	//| error 
 	//{
 		//msg = "Error Sintactico en:"+$1+"ERROR"+$1+" en la linea:" + this._$1.first_line + " en la Columna: " + this._$1.first_column;
 		//tbl_error.push(msg);
 		//console.log(msg);
 	//}
-
 	*/
 ;

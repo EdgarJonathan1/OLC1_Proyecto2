@@ -15,11 +15,19 @@ class Servicio {
             //haciendo el parsing con jison
             var tree = parse.parse(req.body.texto);
             //console.log(req.body);
-            console.log(tree);
+            // console.log(tree);
 
             //recorriendo el arbol para crear el dot
             var tour:TourTree = new TourTree();
             var dot:string = tour.getDot(tree.ast);
+
+            if(tree.ast === Nodo)
+            {
+                console.log("es un nodo");
+            }else
+            {
+                console.log("No es un nodo");
+            }
 
             //creando el dot y ejecutando el codigo para generar el pdf
             fs.writeFile('codigo.dot',dot, (err)=>{ 
@@ -28,7 +36,7 @@ class Servicio {
             });
 
 
-            res.json({ responde: dot });
+            res.json({ responde: "true" });
         } catch (error) {
             console.log(error);    
             res.json({ responde: "false" });

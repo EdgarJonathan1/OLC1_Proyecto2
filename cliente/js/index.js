@@ -190,18 +190,14 @@ function hacerPost() {
         .then(res => res.json())
         .then(data => {
             console.log(data.responde);
-            var consoleJava = document.getElementById('consoleJavascript');
+            // var consoleJava = document.getElementById('consoleJavascript');
             //consoleJava.append(data.responde);
             //consoleJava.value(data.responde);
         }
     )
 
-    //var grafo = document.querySelector("#graph");
-    //console.log(document.querySelector("#graph"));
-    //d3.select(d3.querySelector("#graph")).graphviz()
-    //        .renderDot('digraph  {a -> b}');
         
-    console.log("SI llegamos hasta aca jonathan");
+    //console.log("SI llegamos hasta aca jonathan");
 
 
 } 
