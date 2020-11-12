@@ -1,6 +1,7 @@
 var contador = 0;
 var contenidoAST = "";
 var host = "http://192.168.1.13:8080/Ana/"
+//var host = "http://172.17.0.2:8080/Ana/"
 
 function get_cont() {
     return contador++;
@@ -177,7 +178,7 @@ function hacerPost() {
 
     var data = new FormData();
     data.append("json", JSON.stringify(enviar));
-    //console.log("enviando: " + JSON.stringify(enviar))   
+    console.log("enviando: " + JSON.stringify(enviar))   
 
     fetch(host+"Javascript", {
             method: "POST",

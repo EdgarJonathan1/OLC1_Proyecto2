@@ -627,16 +627,6 @@ INS_CLASE
 		$$ = new Nodo("INS_CLASE","");
 		$$.add($1);
 	}
-	|INS_CLASE LLAMADA_FUNCION 
-	{
-		$1.add($2);
-		$$ = $1;
-	}
-	|LLAMADA_FUNCION
-	{
-		$$ = new Nodo("INS_CLASE","");
-		$$.add($1);
-	}
 	|INS_CLASE IMP_METODO
 	{
 		$1.add($2);
@@ -665,16 +655,6 @@ INS_CLASE
 	|DEC_METODO	
 	{
 		$$ = new Nodo("INS_CLASE","");
-		 $$.add($1);
-	}
-	|INS_CLASE EXP_AUMENTO spuntocoma 
-	{
-		$1.add($2);
-		$$ = $1;
-	}
-	|EXP_AUMENTO spuntocoma
-	{
-		$$ = new Nodo("LI","");
 		$$.add($1);
 	}
 ;
@@ -844,16 +824,6 @@ LI
 		$$ = new Nodo("LI","");
 		$$.add($1);
 	}
-	|LI LLAMADA_FUNCION 
-	{
-		$1.add($2);
-		$$ = $1;
-	}
-	|LLAMADA_FUNCION
-	{
-		$$ = new Nodo("INS_CLASE","");
-		$$.add($1);
-	}
 	|LI SENTENCIA_REPETICION
 	{
 		$1.add($2);
@@ -900,16 +870,6 @@ LI
 		$$ = $1;
 	}
 	|BREAK_CONTINUE
-	{
-		$$ = new Nodo("LI","");
-		$$.add($1);
-	}
-	|LI EXP_AUMENTO spuntocoma 
-	{
-		$1.add($2);
-		$$ = $1;
-	}
-	|EXP_AUMENTO spuntocoma
 	{
 		$$ = new Nodo("LI","");
 		$$.add($1);
@@ -1050,15 +1010,6 @@ STATCORPRIMA
 	}
 ;
 
-LLAMADA_FUNCION
-	:tkidentificador sparizq   LISTA_VALOR_PARAMETRO sparder spuntocoma 
-;
-
-LISTA_VALOR_PARAMETRO
-	: LISTA_VALOR_PARAMETRO scoma EXP
-	| EXP
-;	
-
 DECLARA_ASIGN
 	: TIPO_DATO LISTA_ID  spuntocoma
 	{
@@ -1066,10 +1017,18 @@ DECLARA_ASIGN
 		$$.add($1);
 		$$.add($2);
 	}
-	|LISTA_ID   spuntocoma
+	| TIPO_DATO LISTA_ID sigual EXP spuntocoma
+	{
+		$$ = new Nodo("DECLARACION","");
+		$$.add($1);
+		$$.add($2);
+		$$.add($4);
+	}
+	|LISTA_ID sigual EXP spuntocoma
 	{
 		$$ = new Nodo("ASIGNACION","");
 		$$.add($1);
+		$$.add($3);
 	}
 	|error spuntocoma
 	{
@@ -1083,33 +1042,17 @@ DECLARA_ASIGN
 ;
 
 LISTA_ID
-	: LISTA_ID scoma ID_IGUAL_EXP
+	: LISTA_ID scoma tkidentificador
 	{
-		$1.add($3);
+		$1.add(new Nodo($3,"identificador"));
 		$$=$1;			
 	}
-	|ID_IGUAL_EXP
+	|tkidentificador
 	{
 		$$ = new Nodo("LISTA_ID","");
-		$$.add($1);
+		$$.add(new Nodo($1,"identificador"));
 	}
 ;
-
-ID_IGUAL_EXP
-	:tkidentificador sigual EXP
-	{
-		$$ = new Nodo("ID_IGUAL_EXP","");
-		$$.add(new Nodo($1,""));
-		$$.add($3);
-	}
-	|tkidentificador 
-	{
-		$$ = new Nodo("ID_IGUAL_EXP","");
-		$$.add(new Nodo($1,""));
-	}
-;
-
-
 
 TIPO_DATO
 	:rint	

@@ -9,6 +9,7 @@ class UserRoutes {
     }
     config() {
         this.router.post('/Javascript', pruebaCtl_1.servicio.Javascript);
+        // this.router.get('/Javascript',servicio.Javascript);
         //this.router.get('/prueba',servicio.prueba);
     }
 }

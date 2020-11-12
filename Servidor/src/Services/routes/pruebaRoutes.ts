@@ -12,6 +12,7 @@ class UserRoutes{
 
     config(): void {
         this.router.post('/Javascript',servicio.Javascript);
+       // this.router.get('/Javascript',servicio.Javascript);
         //this.router.get('/prueba',servicio.prueba);
     }
 

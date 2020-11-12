@@ -7,7 +7,8 @@
     "tsc": "tsc -w",
     "dev": "nodemon --watch 'src' --ext 'ts' --exec 'ts-node ./src/'",
     "server": "nodemon build/index.js",
-    "jison": "nodemon --watch 'src/ParserJavascript/Analisis' --ext 'jison' --exec 'jison ./src/ParserJavascript/Analisis/gramatica.jison && mv gramatica.js ./build/ParserJavascript/Analisis/'"
+    "jison": "nodemon --watch 'src/ParserJavascript/Analisis' --ext 'jison' --exec 'jison ./src/ParserJavascript/Analisis/gramatica.jison && mv gramatica.js ./build/ParserJavascript/Analisis/'",
+    "traductor": "nodemon --watch 'src/ParserJavascript/Analisis' --ext 'jison' --exec 'jison ./src/ParserJavascript/Analisis/traductor.jison && mv traductor.js ./build/ParserJavascript/Analisis/'"
   },
   "keywords": [],
   "author": "",
