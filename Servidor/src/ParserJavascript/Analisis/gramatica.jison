@@ -33,7 +33,7 @@
 			tipo = "Lexico";
 		}else//Es un error sintactico
 		{ 
-		 	descripcion = "No se esperaba "+data[2]+"";
+		 	descripcion = "Recuperandose con "+data[2]+" En modo Panico!!!";
 			tipo = "Sintactico";
 		}
 
@@ -53,6 +53,35 @@
 
 
 //Palabras Reservadas
+
+"continue"  
+ 					{
+						var tipo = 'rcontinue';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"System.out.println"  
+ 					{
+						var tipo = 'rprintln';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"System.out.print"  
+ 					{
+						var tipo = 'rprint';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"return"  
+ 					{
+						var tipo = 'rreturn';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 "public"  
  					{
 						var tipo = 'rpublic';
@@ -550,7 +579,7 @@ INSTRUCCIONES
 ;
 
 INSTRUCCION
-	: MODIFICADOR CLASE_INTERFACE tkidentificador sllaveizq INS_METODO sllaveder 
+	: MODIFICADOR CLASE_INTERFACE tkidentificador sllaveizq INS_CLASE sllaveder 
 	{
 		$$ = new Nodo("CLASE_INTERFACE","");
 		$$.add($1);
@@ -587,48 +616,86 @@ CLASE_INTERFACE
 	}	
 ;
 
-INS_METODO
-	:INS_METODO DECLARA_ASIGN 
+INS_CLASE
+	:INS_CLASE DECLARA_ASIGN 
 	{
 		$1.add($2);
 		$$ = $1;
 	}
 	|DECLARA_ASIGN
 	{
-		$$ = new Nodo("INS_METODO","");
+		$$ = new Nodo("INS_CLASE","");
 		$$.add($1);
 	}
-	|INS_METODO IMP_METODO
+	|INS_CLASE IMP_METODO
 	{
 		$1.add($2);
 		$$ = $1;
 	}
 	|IMP_METODO
 	{
-		$$ = new Nodo("INS_METODO","");
+		$$ = new Nodo("INS_CLASE","");
 		$$.add($1);
 	}
-	|INS_METODO MAIN
+	|INS_CLASE MAIN
 	{
 		$1.add($2);
 		$$ = $1;
 	}
 	|MAIN	
 	{
-		$$ = new Nodo("INS_METODO","");
+		$$ = new Nodo("INS_CLASE","");
 		$$.add($1);
 	}
-	|INS_METODO DEC_METODO
+	|INS_CLASE DEC_METODO
 	{
 		$1.add($2);
 		$$ = $1;
 	}
 	|DEC_METODO	
 	{
-		$$ = new Nodo("INS_METODO","");
+		$$ = new Nodo("INS_CLASE","");
 		$$.add($1);
 	}
 ;
+
+BREAK_CONTINUE
+	:rbreak spuntocoma
+	{
+		$$ = new Nodo("break","");
+	}
+	|rcontinue spuntocoma
+	{
+		$$ = new Nodo("continue","");
+	}
+;
+
+
+RETORNO
+	: rreturn EXP spuntocoma
+	{
+		$$ = new Nodo("RETORNO","");	
+		$$.add(new Nodo($1,""));
+		$$.add($2);
+	}
+;
+
+PRINT
+	:rprint sparizq EXP sparder spuntocoma
+	{
+		$$ = new Nodo("PRINT","");	
+		$$.add(new Nodo("print",""));
+		$$.add($3);
+	}
+	|rprintln sparizq EXP sparder spuntocoma
+	{
+		$$ = new Nodo("PRINT","");	
+		$$.add(new Nodo("println",""));
+		$$.add($3);
+	}
+
+;
+
 
 DEC_METODO
 	:MODIFICADOR TIPO_DATO tkidentificador sparizq  PARAMETROS   spuntocoma
@@ -668,6 +735,9 @@ DEC_METODO
 	{
 		var data = [this._$.first_line,this._$.first_column,yytext,1];
 		addErr(data); 
+
+		$$ = new Nodo("ERROR","");
+		$$.add(new Nodo(yytext,""));
 	}
 ;
 
@@ -774,6 +844,36 @@ LI
 		$$ = new Nodo("LI","");
 		$$.add($1);
 	}
+	|LI RETORNO
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|RETORNO
+	{
+		$$ = new Nodo("LI","");
+		$$.add($1);
+	}
+	|LI PRINT
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|PRINT
+	{
+		$$ = new Nodo("LI","");
+		$$.add($1);
+	}
+	|LI BREAK_CONTINUE
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|BREAK_CONTINUE
+	{
+		$$ = new Nodo("LI","");
+		$$.add($1);
+	}
 ;
 
 SENTENCIA_CONTROL
@@ -875,6 +975,7 @@ ELSEIF
 	{
 		$$ = new Nodo("ELSEIF");
 		$$.add($4);
+		$$.add($6);
 	}
 ;
 
@@ -903,6 +1004,9 @@ STATCORPRIMA
 	{
 		var data = [this._$.first_line,this._$.first_column,yytext,1];
 		addErr(data); 
+
+		$$ = new Nodo("ERROR","");
+		$$.add(new Nodo(yytext,""));
 	}
 ;
 
@@ -930,6 +1034,9 @@ DECLARA_ASIGN
 	{
 		var data = [this._$.first_line,this._$.first_column,yytext];
 		addErr(data); 
+
+		$$ = new Nodo("ERROR","");
+		$$.add(new Nodo(yytext,""));
 	}
 
 ;
