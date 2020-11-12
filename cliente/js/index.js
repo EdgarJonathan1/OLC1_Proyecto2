@@ -1,6 +1,6 @@
 var contador = 0;
 var contenidoAST = "";
-var host = "http://192.168.1.13:3000/Ana/"
+var host = "http://192.168.1.13:8080/Ana/"
 
 function get_cont() {
     return contador++;
@@ -190,9 +190,20 @@ function hacerPost() {
         .then(res => res.json())
         .then(data => {
             console.log(data.responde);
-            // var consoleJava = document.getElementById('consoleJavascript');
-            //consoleJava.append(data.responde);
-            //consoleJava.value(data.responde);
+            
+
+            var ReportError = document.getElementById('tablaError');
+            var consoleJava = document.getElementById('consoleJavascript');
+            var tablaToken = document.getElementById('tablaToken');
+            
+            while(ReportError.firstChild){ ReportError.removeChild(ReportError.firstChild); }
+            while(consoleJava.firstChild){ consoleJava.removeChild(consoleJava.firstChild); }
+            while(tablaToken.firstChild){ tablaToken.removeChild(tablaToken.firstChild); }
+            
+            
+            ReportError.innerHTML=data.errores;
+            consoleJava.innerHTML=data.consola;
+            tablaToken.innerHTML=data.tokens;
         }
     )
 

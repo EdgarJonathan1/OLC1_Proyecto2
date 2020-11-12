@@ -18,7 +18,7 @@ class Server {
     }
 
     config(): void {
-        this.app.set('port', process.env.PORT || 3000);
+        this.app.set('port', process.env.PORT || 8080);
         this.app.set('trust proxy', 'loopback,192.168.1.13');
 
         this.app.use(morgan('dev'));

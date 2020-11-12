@@ -22,31 +22,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.servicio = void 0;
 const TourTree_1 = require("../../ParserJavascript/Interprete/TourTree");
 const fs = __importStar(require("fs"));
-const Nodo_1 = require("../../ParserJavascript/Interprete/Nodo");
 const parse = require('../../../build/ParserJavascript/Analisis/gramatica');
 class Servicio {
     Javascript(req, res) {
         try {
             //haciendo el parsing con jison
             var tree = parse.parse(req.body.texto);
-            //console.log(req.body);
-            // console.log(tree);
             //recorriendo el arbol para crear el dot
             var tour = new TourTree_1.TourTree();
             var dot = tour.getDot(tree.ast);
-            if (tree.ast === Nodo_1.Nodo) {
-                console.log("es un nodo");
-            }
-            else {
-                console.log("No es un nodo");
-            }
+            let err = tree.errores.reporteErrores();
+            let consola = tree.errores.reportConsola();
+            tree.errores.reiniciar();
+            let reportToken = tree.tokens.reporteTokens();
+            tree.tokens.reiniciar();
             //creando el dot y ejecutando el codigo para generar el pdf
             fs.writeFile('codigo.dot', dot, (err) => {
                 if (err)
                     throw err;
                 tree.ast.execdot();
             });
-            res.json({ responde: "true" });
+            res.json({
+                responde: "true",
+                errores: err,
+                consola: consola,
+                tokens: reportToken
+            });
         }
         catch (error) {
             console.log(error);

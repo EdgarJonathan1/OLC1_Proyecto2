@@ -6,7 +6,40 @@
 %{
     //var AST = require("../AST/Entornos/AST");
 	const {Nodo} = require('../Interprete/Nodo');
-	const tbl_error=[];
+
+    const {ListaToken} = require("../Interprete/ListaToken");
+    const {Token} = require("../Interprete/Token");
+    var LToken = new ListaToken();
+
+	function addToken(data)
+	{
+		LToken.insertar(new Token(data[0],data[1],data[2],data[3]));
+	}
+
+	//Llenando en una lista los errores obtenidos
+    const {ListaError} = require("../Interprete/ListaError");
+    const {Error} = require("../Interprete/Error");
+    var LError = new ListaError();
+
+    function addErr(data) 
+    {
+		var descripcion = "";
+		var tipo  =  data[data.length-1];
+		let linea = data[0];
+		let columna = data[1];
+		if(tipo == 0)//Es un error lexico
+		{
+		 	descripcion = "El caracter: "+data[2]+" No pertenece al lenguaje";
+			tipo = "Lexico";
+		}else//Es un error sintactico
+		{ 
+		 	descripcion = "No se esperaba "+data[2]+"";
+			tipo = "Sintactico";
+		}
+
+        LError.insertar(new Error(tipo,linea,columna,descripcion)); 
+    }
+
 	
 %}
 %lex
@@ -20,76 +53,438 @@
 
 
 //Palabras Reservadas
-"public"  			return 'rpublic'
-"private"  			return 'rprivate'
-"class"  			return 'rclass'
-"INTERFACE"  		return 'rinterface'
-"false"				return 'rfalse'
-"true"				return 'rtrue'
+"public"  
+ 					{
+						var tipo = 'rpublic';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+
+"private"  			
+ 					{
+						var tipo = 'rprivate';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"static"  			
+ 					{
+						var tipo = 'rstatic';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"String[]"  		
+ 					{
+						var tipo = 'rstring';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"args"  			
+ 					{
+						var tipo = 'rargs';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"main"  			
+ 					{
+						var tipo = 'rmain';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"class"  			
+ 					{
+						var tipo = 'rclass';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"INTERFACE"  		
+ 					{
+						var tipo = 'rinterface';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"false"				
+ 					{
+						var tipo = 'rfalse';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"true"				
+ 					{
+						var tipo = 'rtrue';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 
 //Tipos de dato
-"int"				return 'rint';
-"bool"				return 'rbool';
-"float"				return 'rfloat';
-"string"			return 'rstring';
-"char"				return 'rchar'; 
-"void"				return 'rvoid'; 
+"int"				
+ 					{
+						var tipo = 'rint';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"bool"				
+ 					{
+						var tipo = 'rbool';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"float"				
+ 					{
+						var tipo = 'rfloat';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"string"			
+ 					{
+						var tipo = 'rstring';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"char"				
+ 					{
+						var tipo = 'rchar';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"void"				
+ 					{
+						var tipo = 'rvoid';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 
-"while"				return 'rwhile';
-"do"				return 'rdo';
-"if"				return 'rif';
-"else"				return 'relse';
-"for"				return 'rfor';
-"switch"			return 'rswitch';
-"case"				return 'rcase';
-"default"			return 'rdefault';
-"break"				return 'rbreak';
+"while"				
+ 					{
+						var tipo = 'rwhile';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"do"				
+ 					{
+						var tipo = 'rdo';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"if"				
+ 					{
+						var tipo = 'rif';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"else"				
+ 					{
+						var tipo = 'relse';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"for"				
+ 					{
+						var tipo = 'rfor';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"switch"			
+ 					{
+						var tipo = 'rswitch';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"case"				
+ 					{
+						var tipo = 'rcase';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"default"			
+ 					{
+						var tipo = 'rdefault';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"break"				
+ 					{
+						var tipo = 'rbreak';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 
 //Simbolos
 
-":"					return 'sdospuntos';
-";"					return 'spuntocoma';
-","					return 'scoma';
-"{"					return 'sllaveizq';
-"}"					return 'sllaveder';
-"("					return 'sparizq';
-")"					return 'sparder';
+":"			
+ 					{
+						var tipo = 'sdospuntos';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+";"					
+ 					{
+						var tipo = 'spuntocoma';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+","					
+ 					{
+						var tipo = 'scoma';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"{"				
+ 					{
+						var tipo = 'sllaveizq';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"}"					
+ 					{
+						var tipo = 'sllaveder';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"("					
+ 					{
+						var tipo = 'sparizq';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+")"					
+ 					{
+						var tipo = 'sparder';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 
-"++"				return 'adicion';
-"--"				return 'sustraccion';
-"+="				return 'smasigual';
-"-="				return 'smenosigual';
-"*="				return 'sporigual';
-"/="				return 'sdivigual';
-"&&"				return 'sand'
-"||"				return 'sor';
+"++"				
+ 					{
+						var tipo = 'adicion';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"--"			
+ 					{
+						var tipo = 'sustraccion';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"+="		
+ 					{
+						var tipo = 'smasigual';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"-="				
+ 					{
+						var tipo = 'smenosigual';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"*="				
+ 					{
+						var tipo = 'sporigual';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"/="				
+ 					{
+						var tipo = 'sdivigual';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"&&"				
+ 					{
+						var tipo = 'sand';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"||"				
+ 					{
+						var tipo = 'sor';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 
-"+"					return 'smas';
-"-"					return 'smenos';
-"*"					return 'spor';
-"/"					return 'sdiv';
+"+"					
+ 					{
+						var tipo = 'smas';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"-"					
+ 					{
+						var tipo = 'smenos';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"*"					
+ 					{
+						var tipo = 'spor';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"/"					
+ 					{
+						var tipo = 'sdiv';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 
-"<="				return 'smenigque';
-">="				return 'smayigque';
-"=="				return 'sdobleig';
-"!="				return 'snoig';
+"<="				
+ 					{
+						var tipo = 'smenigque';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+">="				
+ 					{
+						var tipo = 'smayigque';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"=="				
+ 					{
+						var tipo = 'sdobleig';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"!="				
+ 					{
+						var tipo = 'snoig';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 
-"<"					return 'smenque';
-">"					return 'smayque';
-"="					return 'sigual';
-"^"					return 'sxor';
+"<"					
+ 					{
+						var tipo = 'smenque';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+">"					
+ 					{
+						var tipo = 'smayque';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"="		
+ 					{
+						var tipo = 'sigual';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+"^"				
+ 					{
+						var tipo = 'sxor';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 
 
-"!"					return 'snot';
+"!"					
+ 					{
+						var tipo = 'snot';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
 
-\"[^\"]*\"				{ yytext = yytext.substr(1,yyleng-2); return 'tkstring'; }
-[0-9]+("."[0-9]+)?\b  	return 'tkflotante';
-[0-9]+\b				return 'tkentero';
-([a-zA-Z])[a-zA-Z0-9_]*	return 'tkidentificador';
+[0-9]+\b	
+ 					{
+						var tipo = 'tkentero';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+[0-9]+("."[0-9]+)?  
+ 					{
+						var tipo = 'tkflotante';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+([a-zA-Z])[a-zA-Z0-9_]*	
+ 					{
+						var tipo = 'tkidentificador';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+
+([\"][^"]*[\"]) 
+ 					{
+						var tipo = 'tkstring';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+([\'][^']*[\']) 
+ 					{
+						var tipo = 'tkstring2';
+						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
+						addToken(data);
+						return tipo;      
+					}
+
+//[\"]([^\"\n]|(\\\"))*[\"]       { console.log('Reconocion Cadena xd');  return 'tkstring';      }
+
 
 
 <<EOF>>				return 'EOF';
-.					{ console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
+.					{ 
+						
+						var data = [yylloc.first_line, yylloc.first_column, yytext,0];
+						addErr(data); 
+					}
 
 /lex
 
@@ -100,15 +495,24 @@
 
 
 /* Asociación de operadores y precedencia */
+%left  sor 
+%left  sand 
 
-%left 'sor' 'sand'
-%left 'smas' 'smenos'
-%left 'spor' 'sdiv'
-%left UMENOS
+%left  snoig sdobleig 
+%left  smenque smayque smenigque smayigque
+
+%left  smas smenos 
+%left  spor  sdiv  
+%left  sxor 
+
+%right snot 
+%right UMENOS
+
+%left adicion sustraccion 
 
 %start INI
 
-/*****************************************************************************************************/
+/****************************************************************************************************/
 %% /******************************* Definición de la gramática ***************************************/
 /*****************************************************************************************************/
 INI
@@ -116,8 +520,19 @@ INI
 	{
 		$$ = new Nodo("INI","");
 		$$.add($1);
+		return {
+					ast:$$,
+					errores:LError,
+					tokens:LToken
+				}
+	}
+;
 
-		return {ast:$$,tbl:tbl_error}
+MAIN
+	:rpublic rstatic rvoid rmain sparizq rstring rargs sparder STATCOR
+	{
+		$$ = new Nodo("MAIN","");
+		$$.add($9);
 	}
 ;
 
@@ -135,7 +550,7 @@ INSTRUCCIONES
 ;
 
 INSTRUCCION
-	: MODIFICADOR CLASE_INTERFACE tkidentificador sllaveizq DECLARACION_METODO sllaveder 
+	: MODIFICADOR CLASE_INTERFACE tkidentificador sllaveizq INS_METODO sllaveder 
 	{
 		$$ = new Nodo("CLASE_INTERFACE","");
 		$$.add($1);
@@ -145,7 +560,6 @@ INSTRUCCION
 		$$.add($5);
 		$$.add(new Nodo($6,""));
 	}	
-	
 	| MODIFICADOR CLASE_INTERFACE tkidentificador sllaveizq  sllaveder 
 	{
 		$$ = new Nodo("CLASE_INTERFACE","");
@@ -154,7 +568,7 @@ INSTRUCCION
 		$$.add(new Nodo($3,""));
 		$$.add(new Nodo($4,""));
 		$$.add(new Nodo($5,""));
-	}		
+	}	
 ;
 
 MODIFICADOR
@@ -173,43 +587,94 @@ CLASE_INTERFACE
 	}	
 ;
 
-DECLARACION_METODO
-	:DECLARACION_METODO DECLARACION 
+INS_METODO
+	:INS_METODO DECLARA_ASIGN 
 	{
 		$1.add($2);
 		$$ = $1;
 	}
-	|DECLARACION
+	|DECLARA_ASIGN
 	{
-		$$ = new Nodo("DECLARACION_METODO","");
+		$$ = new Nodo("INS_METODO","");
 		$$.add($1);
 	}
-	|DECLARACION_METODO ASIGNACION
+	|INS_METODO IMP_METODO
 	{
 		$1.add($2);
 		$$ = $1;
 	}
-	|ASIGNACION
+	|IMP_METODO
 	{
-		$$ = new Nodo("DECLARACION_METODO","");
+		$$ = new Nodo("INS_METODO","");
 		$$.add($1);
 	}
-	|DECLARACION_METODO METODO
+	|INS_METODO MAIN
 	{
 		$1.add($2);
 		$$ = $1;
 	}
-	|METODO
+	|MAIN	
 	{
-		$$ = new Nodo("DECLARACION_METODO","");
+		$$ = new Nodo("INS_METODO","");
+		$$.add($1);
+	}
+	|INS_METODO DEC_METODO
+	{
+		$1.add($2);
+		$$ = $1;
+	}
+	|DEC_METODO	
+	{
+		$$ = new Nodo("INS_METODO","");
 		$$.add($1);
 	}
 ;
 
-METODO
+DEC_METODO
+	:MODIFICADOR TIPO_DATO tkidentificador sparizq  PARAMETROS   spuntocoma
+	{
+		$$ = new Nodo("DEC_METODO","");
+		$$.add($1);
+		$$.add($2);
+		$$.add(new Nodo($3,""));
+		$$.add(new Nodo($4,""));
+		$$.add($5);
+		$$.add($6);
+	}	
+	|TIPO_DATO tkidentificador sparizq  PARAMETROS    spuntocoma
+	{
+		$$ = new Nodo("DEC_METODO","");
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add(new Nodo($3,""));
+		$$.add($4);
+	}	
+	| rvoid tkidentificador sparizq  PARAMETROS  spuntocoma
+	{
+		$$ = new Nodo("DEC_METODO","");
+		$$.add(new Nodo($1,""));
+		$$.add(new Nodo($2,""));
+		$$.add($4);
+	}
+	|MODIFICADOR rvoid tkidentificador sparizq  PARAMETROS  spuntocoma
+	{
+		$$ = new Nodo("DEC_METODO","");
+		$$.add($1);
+		$$.add(new Nodo($2,""));
+		$$.add(new Nodo($3,""));
+		$$.add($5);
+	}
+	|error
+	{
+		var data = [this._$.first_line,this._$.first_column,yytext,1];
+		addErr(data); 
+	}
+;
+
+IMP_METODO
 	:MODIFICADOR TIPO_DATO tkidentificador sparizq  PARAMETROS STATCOR
 	{
-		$$ = new Nodo("METODO","");
+		$$ = new Nodo("IMP_METODO","");
 		$$.add($1);
 		$$.add($2);
 		$$.add(new Nodo($3,""));
@@ -219,7 +684,7 @@ METODO
 	}	
 	|TIPO_DATO tkidentificador sparizq  PARAMETROS STATCOR
 	{
-		$$ = new Nodo("METODO","");
+		$$ = new Nodo("IMP_METODO","");
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add(new Nodo($3,""));
@@ -228,16 +693,16 @@ METODO
 	}	
 	| rvoid tkidentificador sparizq  PARAMETROS STATCOR
 	{
-		$$ = new Nodo("METODO","");
+		$$ = new Nodo("IMP_METODO","");
+		$$.add(new Nodo($1,""));
 		$$.add(new Nodo($2,""));
 		$$.add(new Nodo($3,""));
-		$$.add(new Nodo($4,""));
+		$$.add($4);
 		$$.add($5);
-		$$.add($6);
-	}
+	 }
 	|MODIFICADOR rvoid tkidentificador sparizq  PARAMETROS STATCOR
 	{
-		$$ = new Nodo("METODO","");
+		$$ = new Nodo("IMP_METODO","");
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add(new Nodo($3,""));
@@ -279,22 +744,12 @@ LIST_PAR
 ;
 
 LI
-	:LI ASIGNACION 				
+	:LI DECLARA_ASIGN 				
 	{
 		$1.add($2);
 		$$ = $1;
 	}
-	|ASIGNACION
-	{
-		$$ = new Nodo("LI","");
-		$$.add($1);
-	}
-	|LI DECLARACION 				
-	{
-		$1.add($2);
-		$$ = $1;
-	}
-	|DECLARACION
+	|DECLARA_ASIGN
 	{
 		$$ = new Nodo("LI","");
 		$$.add($1);
@@ -329,34 +784,8 @@ SENTENCIA_CONTROL
 	}
 ;
 
-DECLARA_ASIGN
-	:DECLARACION
-	{
-		$$ = $1
-	}
-	|ASIGNACION
-	{
-		$$ = $1;
-	}
-;
-
-EXP_AUMENTO
-	:tkidentificador  adicion
-	{
-		$$ = new Nodo("EXP_AUMENTO","");
-		$$.add(new Nodo($1,""));
-		$$.add(new Nodo($2,""));
-	}
-	|tkidentificador sustraccion
-	{
-		$$ = new Nodo("EXP_AUMENTO","");
-		$$.add(new Nodo($1,""));
-		$$.add(new Nodo($2,""));
-	}
-;
-
 SENTENCIA_REPETICION
-	:rfor sparizq  DECLARA_ASIGN EXP_REL spuntocoma EXP_AUMENTO sparder  STATCOR 
+	:rfor sparizq  DECLARA_ASIGN EXP spuntocoma EXP_AUMENTO sparder  STATCOR 
 	{
 		$$ = new Nodo("FOR","");
 		$$.add($3);
@@ -364,17 +793,17 @@ SENTENCIA_REPETICION
 		$$.add($6);
 		$$.add($8);
 	}
-	|rwhile sparizq EXP_NUM sparder  STATCOR 
+	|rwhile sparizq EXP sparder  STATCOR 
 	{
 		$$ = new Nodo("WHILE","");
 		$$.add($3);
-		$$.add($6);
+		$$.add($5);
 	}
-	|rdo sllaveizq STATCOR sllaveder rwhile sparizq EXP_NUM sparder spuntocoma
+	|rdo  STATCOR  rwhile sparizq EXP sparder spuntocoma
 	{
 		$$ = new Nodo("DO_WHILE","");
-		$$.add($3);
-		$$.add($7);
+		$$.add($2);
+		$$.add($5);
 	}
 ;
 
@@ -391,20 +820,20 @@ LISTA_IF
 	}
 ;
 
-IF  : rif sparizq EXP_LOG sparder  STATCOR  OTHERELSE
+IF  
+	: rif sparizq EXP sparder  STATCOR  OTHERELSE
 	{
 		$$ = new Nodo("IF","");
 		$$.add($3);
 		$$.add($5);
 		$$.add($6);
 	}
-    | rif sparizq EXP_LOG sparder STATCOR 
+    | rif sparizq EXP sparder STATCOR 
 	{
 		$$ = new Nodo("IF","");
 		$$.add($3);
 		$$.add($5);
 	}
-
 ;
 
 OTHERELSE 
@@ -440,13 +869,15 @@ LELSEIF
 		$$.add($1);
 	}
 ;
+
 ELSEIF  
-	: relse rif sparizq EXP_LOG sparder  STATCOR	
+	: relse rif sparizq EXP sparder  STATCOR	
 	{
 		$$ = new Nodo("ELSEIF");
 		$$.add($4);
 	}
 ;
+
 STATCOR 
 	:sllaveizq  STATCORPRIMA  
 	{
@@ -468,31 +899,39 @@ STATCORPRIMA
 		$$ = new Nodo("STATCORPRIMA","");
 		$$.add(new Nodo($1,""));
 	}
+	|error sllaveder
+	{
+		var data = [this._$.first_line,this._$.first_column,yytext,1];
+		addErr(data); 
+	}
 ;
 
-DECLARACION
+DECLARA_ASIGN
 	: TIPO_DATO LISTA_ID  spuntocoma
-	 {
+	{
 		$$ = new Nodo("DECLARACION","");
 		$$.add($1);
 		$$.add($2);
-	 }
-	| TIPO_DATO LISTA_ID sigual VALOR spuntocoma
-	 {
+	}
+	| TIPO_DATO LISTA_ID sigual EXP spuntocoma
+	{
 		$$ = new Nodo("DECLARACION","");
 		$$.add($1);
 		$$.add($2);
 		$$.add($4);
-	 }
-;
-
-ASIGNACION
-	:LISTA_ID sigual VALOR spuntocoma
+	}
+	|LISTA_ID sigual EXP spuntocoma
 	{
 		$$ = new Nodo("ASIGNACION","");
 		$$.add($1);
 		$$.add($3);
-	 }
+	}
+	|error spuntocoma
+	{
+		var data = [this._$.first_line,this._$.first_column,yytext];
+		addErr(data); 
+	}
+
 ;
 
 LISTA_ID
@@ -536,164 +975,124 @@ TIPO_DATO
 	}	
 ;
 
-VALOR 
-	:tkstring
+EXP
+	: EXP sand EXP     
 	{
-		$$ = new Nodo("VALOR","")
-		$$.add(new Nodo($1,"string"));
-	}
-	| rfalse	
-	{
-		$$ = new Nodo("VALOR","")
-		$$.add(new Nodo($1,"false"));
-	}
-	| rtrue		
-	{
-		$$ = new Nodo("VALOR","")
-		$$.add(new Nodo($1,"true"));
-	}
-	| EXP_NUM
-	{
-		$$ = new Nodo("VALOR","")
-		$$.add($1);
-	}
-;
-
-EXP_LOG
-	: EXP_REL sand EXP_REL     
-	{
-		$$ = new Nodo("EXP_LOG","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}	
-	| EXP_REL sor EXP_REL 		
+	| EXP sor EXP 		
 	{
-		$$ = new Nodo("EXP_LOG","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}	
-	| EXP_REL sxor EXP_REL 		
+	| EXP sxor EXP 		
 	{
-		$$ = new Nodo("EXP_LOG","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}	
-	| snot EXP_REL							
+	| snot EXP							
 	{
-		$$ = new Nodo("EXP_LOG","")
+		$$ = new Nodo("EXP","")
 		$$.add(new Nodo($1,""));
 		$$.add($2);
 	}	
-	| EXP_REL								
+	| EXP smayque EXP			
 	{
-		$$ = new Nodo("EXP_LOG","")
-		$$.add($1);
-	}	
-;
-
-EXP_REL
-	: EXP_NUM smayque EXP_NUM			
-	{
-		$$ = new Nodo("EXP_REL","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}	
-	| EXP_NUM smenque EXP_NUM		
+	| EXP smenque EXP		
 	{
-		$$ = new Nodo("EXP_REL","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}	
-	| EXP_NUM smayigque EXP_NUM	
+	| EXP smayigque EXP	
 	{
-		$$ = new Nodo("EXP_REL","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}	
-	| EXP_NUM smenigque EXP_NUM	
+	|  EXP smenigque EXP	
 	{
-		$$ = new Nodo("EXP_REL","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}	
-	| EXP_NUM sdobleig EXP_NUM			
+	| EXP sdobleig EXP			
 	{
-		$$ = new Nodo("EXP_REL","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}	
-	|EXP_NUM snoig EXP_NUM			
+	|EXP snoig EXP			
 	{
-		$$ = new Nodo("EXP_REL","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}	
-;
-
-
-EXP_NUM 
-	:smenos EXP_NUM %prec UMENOS 
+	|smenos EXP %prec UMENOS 
 	{
-		$$ = new Nodo("EXP_NUM","")
+		$$ = new Nodo("EXP","")
 		$$.add($2);
 	}
-	|EXP_NUM smas EXP_NUM
+	|EXP smas EXP
 	{	
-		$$ = new Nodo("EXP_NUM","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}
-	|EXP_NUM smenos EXP_NUM
+	|EXP smenos EXP
 	{	
-		$$ = new Nodo("EXP_NUM","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}
-	|EXP_NUM spor EXP_NUM
+	|EXP spor EXP
 	{	
-		$$ = new Nodo("EXP_NUM","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}
-	|EXP_NUM sdiv EXP_NUM
+	|EXP sdiv EXP
 	{	
-		$$ = new Nodo("EXP_NUM","")
+		$$ = new Nodo("EXP","")
 		$$.add($1);
 		$$.add(new Nodo($2,""));
 		$$.add($3);
 	}
-	|sparizq EXP_NUM sparder 
+	|sparizq EXP sparder 
 	{
-		$$ = new Nodo("EXP_NUM","")
+		$$ = new Nodo("EXP","")
 		$$.add($2);
-	}	
-	|tkidentificador 
-	{
-		$$ = new Nodo("EXP_NUM","")
-		$$.add(new Nodo($1,""));
 	}
-	|tkflotante 
+	|EXP_AUMENTO
 	{
-		$$ = new Nodo("EXP_NUM","")
-		$$.add(new Nodo($1,""));
-	}	
-	|tkentero 
+		$$ = new Nodo("EXP","")
+		$$.add($1);
+	}
+	| VALOR	
 	{
-		$$ = new Nodo("EXP_NUM","")
-		$$.add(new Nodo($1,""));
-	}	
+		$$ = new Nodo("EXP","")
+		$$.add($1);
+	}
 	/*
 	//| error 
 	//{
@@ -702,4 +1101,57 @@ EXP_NUM
 		//console.log(msg);
 	//}
 	*/
+;
+
+VALOR 
+	:tkstring
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,""));
+	}
+	|tkstring2
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,""));
+	}
+	| rfalse	
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,""));
+	}
+	| rtrue		
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,""));
+	}
+	|tkidentificador 
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,""));
+	}
+	|tkflotante 
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,""));
+	}	
+	|tkentero 
+	{
+		$$ = new Nodo("VALOR","")
+		$$.add(new Nodo($1,""));
+	}	
+;
+
+EXP_AUMENTO
+	:tkidentificador  adicion
+	{
+		$$ = new Nodo("EXP_AUMENTO","");
+		$$.add(new Nodo($1,""));
+		$$.add(new Nodo($2,""));
+	}
+	|tkidentificador sustraccion
+	{
+		$$ = new Nodo("EXP_AUMENTO","");
+		$$.add(new Nodo($1,""));
+		$$.add(new Nodo($2,""));
+	}
 ;

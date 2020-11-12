@@ -1,0 +1,35 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ListaError = void 0;
+class ListaError {
+    constructor() {
+        this.ListaE = new Array();
+    }
+    insertar(nodoN) {
+        this.ListaE.push(nodoN);
+    }
+    getLista() {
+        return this.ListaE;
+    }
+    reporteErrores() {
+        let c = "";
+        c += "<tr><td>No.</td><td>Tipo Error</td><td>Linea</td><td>Columna</td><td>Descripcion</td></tr>";
+        let n = 1;
+        for (let i of this.ListaE) {
+            c += "<tr><td>" + n + "</td><td>" + i.tipo + "</td><td>" + i.linea + "</td><td>" + i.columna + "</td><td>" + i.descripcion + "</td></tr>\n";
+            n++;
+        }
+        return c;
+    }
+    reportConsola() {
+        let result = "";
+        for (let i of this.ListaE) {
+            result += "Error " + i.tipo + ", linea: " + i.linea + ", columna: " + i.columna + "\n\t " + i.descripcion + "\n";
+        }
+        return result;
+    }
+    reiniciar() {
+        this.ListaE = new Array();
+    }
+}
+exports.ListaError = ListaError;

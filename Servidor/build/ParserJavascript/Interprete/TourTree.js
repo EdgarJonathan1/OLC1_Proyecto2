@@ -23,11 +23,11 @@ class TourTree {
                 this.id++;
             }
             //console.log(nodo);
-            console.log(nodo.id + '[label= "' + nodo.valor + '" fillcolor="#d62728"];\n');
+            //console.log(nodo.id + '[label= "' + nodo.valor + '" fillcolor="#d62728"];\n');
             this.result += nodo.id + '[label= "' + nodo.valor + '" fillcolor="#d62728"];\n';
             nodo.hijos.forEach(element => {
                 /* id -> id; */
-                console.log(nodo.id + '->' + this.id + ';');
+                //console.log(nodo.id + '->' + this.id + ';');
                 this.result += nodo.id + '->' + this.id + ';';
                 this.tour(element);
             });
