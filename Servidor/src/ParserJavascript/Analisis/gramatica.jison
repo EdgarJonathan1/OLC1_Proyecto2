@@ -169,7 +169,7 @@
 						addToken(data);
 						return tipo;      
 					}
-"float"				
+"double"				
  					{
 						var tipo = 'rfloat';
 						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
@@ -1052,11 +1052,24 @@ STATCORPRIMA
 
 LLAMADA_FUNCION
 	:tkidentificador sparizq   LISTA_VALOR_PARAMETRO sparder spuntocoma 
+	{
+		$$ = new Nodo("LLAMADA_FUNCION","");
+		$$.add(new Nodo($1,""));
+		$$.add($3);
+	}
 ;
 
 LISTA_VALOR_PARAMETRO
 	: LISTA_VALOR_PARAMETRO scoma EXP
+	{
+		$1.add($3);
+		$$=$1;			
+	}
 	| EXP
+	{
+		$$ = new Nodo("LISTA_VALOR_PARAMETRO","");
+		$$.add($1);
+	}
 ;	
 
 DECLARA_ASIGN

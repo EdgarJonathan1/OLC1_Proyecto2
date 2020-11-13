@@ -23,11 +23,13 @@ exports.servicio = void 0;
 const TourTree_1 = require("../../ParserJavascript/Interprete/TourTree");
 const fs = __importStar(require("fs"));
 const parse = require('../../../build/ParserJavascript/Analisis/gramatica');
+const traductor = require('../../../build/ParserJavascript/Analisis/traductor');
 class Servicio {
     Javascript(req, res) {
         try {
             //haciendo el parsing con jison
             var tree = parse.parse(req.body.texto);
+            var tradu = traductor.parse(req.body.texto);
             //recorriendo el arbol para crear el dot
             var tour = new TourTree_1.TourTree();
             var dot = tour.getDot(tree.ast);
@@ -46,7 +48,21 @@ class Servicio {
                 responde: "true",
                 errores: err,
                 consola: consola,
-                tokens: reportToken
+                tokens: reportToken,
+                traduccion: tradu
+            });
+        }
+        catch (error) {
+            console.log(error);
+            res.json({ responde: "false" });
+        }
+    }
+    TraducirJavascript(req, res) {
+        try {
+            var tradu = traductor.parse(req.body.texto);
+            res.json({
+                responde: "true",
+                traduccion: tradu.traduccion
             });
         }
         catch (error) {

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import {TourTree} from '../../ParserJavascript/Interprete/TourTree';
 import * as fs from 'fs';
 const parse = require('../../../build/ParserJavascript/Analisis/gramatica');
+const traductor = require('../../../build/ParserJavascript/Analisis/traductor');
 
 class Servicio {
 
@@ -13,6 +14,7 @@ class Servicio {
             
             //haciendo el parsing con jison
             var tree = parse.parse(req.body.texto);
+            var tradu = traductor.parse(req.body.texto);
 
             //recorriendo el arbol para crear el dot
             var tour:TourTree = new TourTree();
@@ -36,7 +38,8 @@ class Servicio {
                     responde: "true", 
                     errores: err,
                     consola:consola,
-                    tokens:reportToken
+                    tokens:reportToken,
+                    traduccion:tradu
                 });
 
         } catch (error) {
@@ -46,6 +49,21 @@ class Servicio {
 
     }
     
+    TraducirJavascript(req: Request, res: Response)
+    {
+        try {
+            var tradu = traductor.parse(req.body.texto);
+            res.json({ 
+                    responde: "true", 
+                    traduccion:tradu.traduccion
+                });
+
+        } catch (error) {
+            console.log(error);    
+            res.json({ responde: "false" });
+        }
+
+    }
 
 }
 

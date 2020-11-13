@@ -41,7 +41,7 @@ function index(pestanias, pestania) {
 
     var i = 0;
     while (typeof listacPestannas.getElementsByTagName('div')[i] != 'undefined') {
-        $(document).ready(function() {
+        $(document).ready(function () {
             $(listacPestannas.getElementsByTagName('div')[i]).css('display', 'none');
             $(listaPestannas.getElementsByTagName('li')[i]).css('background', '');
             $(listaPestannas.getElementsByTagName('li')[i]).css('padding-bottom', '');
@@ -49,7 +49,7 @@ function index(pestanias, pestania) {
         i += 1;
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $(cpestanna).css('display', '');
         $(pestanna1).css('background', 'dimgray');
         $(pestanna1).css('padding-bottom', '2px');
@@ -74,7 +74,7 @@ function index(pestanias, pestania) {
         }).on('change', editor => {
             tact.value = editor.getValue();
         });
-    } catch (error) {}
+    } catch (error) { }
 }
 
 function add_tab() {
@@ -125,7 +125,7 @@ function add_tab() {
 function AbrirArchivo(files) {
     var file = files[0];
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         var act = document.getElementById(get_vent().replace("textarea", "cpestana"));
         var tact = document.getElementById(get_vent());
         tact.value = e.target.result;
@@ -157,120 +157,115 @@ function AbrirArchivo(files) {
     document.getElementById('fileInput').value = "";
 }
 
-function getReporte() {
-    fetch('http://localhost:8080/')
-        .then(res => res.json())
-        .then(data => {
-            console.log("retorno: " + data.texto);
-            //console.log(data.texto);
-        })
-}
+/*------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------ComunicacionApi---------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
 function hacerPost() {
-    
+
     var ta = document.getElementById(get_vent());
     var contenido = ta.value;
     contenido = contenido.replace(/\"/gm, '\'');
     contenido = contenido.replace(/\\\'/gm, '');
-    //alert(contenido)
+
+
     var enviar = {
         texto: contenido
     };
 
     var data = new FormData();
     data.append("json", JSON.stringify(enviar));
-    console.log("enviando: " + JSON.stringify(enviar))   
+    //console.log("enviando: " + JSON.stringify(enviar))   
 
-    fetch(host+"Javascript", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json, application/json, */*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(enviar)
-        })
+    fetch(host + "Javascript", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json, application/json, */*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(enviar)
+    })
         .then(res => res.json())
         .then(data => {
             console.log(data.responde);
-            
+
 
             var ReportError = document.getElementById('tablaError');
             var consoleJava = document.getElementById('consoleJavascript');
             var tablaToken = document.getElementById('tablaToken');
-            
-            while(ReportError.firstChild){ ReportError.removeChild(ReportError.firstChild); }
-            while(consoleJava.firstChild){ consoleJava.removeChild(consoleJava.firstChild); }
-            while(tablaToken.firstChild){ tablaToken.removeChild(tablaToken.firstChild); }
-            
-            
-            ReportError.innerHTML=data.errores;
-            consoleJava.innerHTML=data.consola;
-            tablaToken.innerHTML=data.tokens;
+
+            while (ReportError.firstChild) { ReportError.removeChild(ReportError.firstChild); }
+            while (consoleJava.firstChild) { consoleJava.removeChild(consoleJava.firstChild); }
+            while (tablaToken.firstChild) { tablaToken.removeChild(tablaToken.firstChild); }
+
+
+            ReportError.innerHTML = data.errores;
+            consoleJava.innerHTML = data.consola;
+            tablaToken.innerHTML = data.tokens;
         }
-    )
+        )
 
-        
-    //console.log("SI llegamos hasta aca jonathan");
-
-
-} 
-
-
-function metodo_hacerPost() {
-    hacerPost();
 }
 
-function hacerPostAnalizar() {
+function DescargarJavascript() {
     var ta = document.getElementById(get_vent());
     var contenido = ta.value;
-    //contenido = contenido.replace(/(\r\n|\n|\r)/gm, '');
     contenido = contenido.replace(/\"/gm, '\'');
     contenido = contenido.replace(/\\\'/gm, '');
+
+
     var enviar = {
         texto: contenido
     };
+
     var data = new FormData();
     data.append("json", JSON.stringify(enviar));
-    console.log("enviando: " + JSON.stringify(enviar))
-    fetch("http://localhost:8080/setContenidoRevisar/", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json, application/json, */*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(enviar)
-        })
+    //console.log("enviando: " + JSON.stringify(enviar))   
+
+    fetch(host + "traducirJavascript", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json, application/json, */*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(enviar)
+    })
         .then(res => res.json())
         .then(data => {
-            console.log("recibiendo: " + data.texto);
-            this.contenidoAST = data.texto;
-            console.log("contenido error:" + data.error);
-            var tabla = document.getElementById('tabla');
-            tabla.innerHTML = data.error;
-            var div_Reporte_copia = document.getElementById('reporte');
-            console.log("recibiendo pila: " + data.pila);
-            div_Reporte_copia.innerHTML = data.pila;
-        })
-        //.then(function(data) { /*return res.json(); */ console.log(data) })
-        //.then(function(data) { alert((data)) })
-    //$("#jstree_demo_div").jstree().settings.core.data = this.contenidoAST;
-    //$("#jstree_demo_div").jstree().refresh(true);
-    //$("#jstree_demo_div").jstree().open_all(null, 200);
+            console.log(data.responde);
+
+
+            var contenido = data.traduccion; //texto de vent actual
+
+            var nombre =  "Traduccion.java";
+            var file = new Blob([contenido], { type: 'text/plain' });
+
+            if (window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveOrOpenBlob(file, nombre);
+            } else {
+                var a = document.createElement("a"),
+                    url = URL.createObjectURL(file);
+                a.href = url;
+                a.download = nombre;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function () {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 0);
+            }
+
+        }
+    )
+
 }
 
 function DescargarArchivo() {
     var ta = document.getElementById(get_vent());
     var contenido = ta.value; //texto de vent actual
-    //console.log(contenido);
-    //formato para guardar el archivo
-    var hoy = new Date();
-    var dd = hoy.getDate();
-    var mm = hoy.getMonth() + 1;
-    var yyyy = hoy.getFullYear();
-    var HH = hoy.getHours();
-    var MM = hoy.getMinutes();
-    var formato = get_vent().replace("textarea", "") + "_" + dd + "_" + mm + "_" + yyyy + "_" + HH + "_" + MM;
 
-    //var nombre = "Archivo" + formato + ".java"; //nombre del archivo
+
     var nombre = get_vent().replace("textarea", "tab") + ".java";
     var file = new Blob([contenido], { type: 'text/plain' });
 
@@ -283,7 +278,7 @@ function DescargarArchivo() {
         a.download = nombre;
         document.body.appendChild(a);
         a.click();
-        setTimeout(function() {
+        setTimeout(function () {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 0);

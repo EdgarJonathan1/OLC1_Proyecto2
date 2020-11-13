@@ -30,6 +30,7 @@
         <button class="btn" id="btn_guardarComo" onclick="DescargarArchivo();">
             <input type="image" src="./image/guardar.png"> save as
         </button>
+
         <button class="btn" onclick="document.getElementById('fileInput').click()">
             <input type="image" src="./image/carpeta.png">open
         </button>
@@ -37,13 +38,22 @@
         <button class="btn" id="btn_agregar" onclick="add_tab();">
             <input type="image" src="./image/add.png">add
         </button>
-        <button class="btn" id="btn_ejecutar" onclick="metodo_hacerPost();">
-            <input type="image" src="./image/play.png" alt="">translate
-        </button>
-        <button class="btn" id="btn_ejecutar" onclick="hacerPostAnalizar();">
-            <input type="image" src="./image/play.png" alt="">run
+       
+        <button class="btn" id="btn_ejecutar" onclick="hacerPost();">
+            <input type="image" src="./image/play.png" alt="">translate to Javascript
         </button>
 
+        <button class="btn" id="btn_guardarComo" onclick="DescargarJavascript();">
+            <input type="image" src="./image/guardar.png"> save javascript
+        </button>
+
+        <button class="btn" id="btn_ejecutar" onclick="hacerPost();">
+            <input type="image" src="./image/play.png" alt="">translate to Python
+        </button>
+
+        <button class="btn" id="btn_guardarComo" onclick="DescargarArchivo();">
+            <input type="image" src="./image/guardar.png"> save Python
+        </button>
         <br>
 
         <h4>Entrada:</h4>
