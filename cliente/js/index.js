@@ -221,7 +221,6 @@ function DescargarJavascript() {
 
     var data = new FormData();
     data.append("json", JSON.stringify(enviar));
-    //console.log("enviando: " + JSON.stringify(enviar))   
 
     fetch(host + "traducirJavascript", {
         method: "POST",
@@ -238,7 +237,7 @@ function DescargarJavascript() {
 
             var contenido = data.traduccion; //texto de vent actual
 
-            var nombre =  "Traduccion.java";
+            var nombre =  "Traduccion.js";
             var file = new Blob([contenido], { type: 'text/plain' });
 
             if (window.navigator.msSaveOrOpenBlob) {

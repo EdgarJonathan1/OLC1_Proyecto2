@@ -1587,14 +1587,14 @@ case 59:
 					
 break;
 case 60:
-						var tipo = 'tkentero';
+						var tipo = 'tkflotante';
 						var data = [yy_.yylloc.first_line, yy_.yylloc.first_column,tipo,yy_.yytext];
 						addToken(data);
 						return tipo;      
 					
 break;
 case 61:
-						var tipo = 'tkflotante';
+						var tipo = 'tkentero';
 						var data = [yy_.yylloc.first_line, yy_.yylloc.first_column,tipo,yy_.yytext];
 						addToken(data);
 						return tipo;      
@@ -1631,7 +1631,7 @@ case 66:
 break;
 }
 },
-rules: [/^(?:\s+)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/i,/^(?:continue\b)/i,/^(?:System\.out\.println\b)/i,/^(?:System\.out\.print\b)/i,/^(?:return\b)/i,/^(?:public\b)/i,/^(?:private\b)/i,/^(?:static\b)/i,/^(?:String\[\])/i,/^(?:args\b)/i,/^(?:main\b)/i,/^(?:class\b)/i,/^(?:INTERFACE\b)/i,/^(?:false\b)/i,/^(?:true\b)/i,/^(?:int\b)/i,/^(?:bool\b)/i,/^(?:double\b)/i,/^(?:string\b)/i,/^(?:char\b)/i,/^(?:void\b)/i,/^(?:while\b)/i,/^(?:do\b)/i,/^(?:if\b)/i,/^(?:else\b)/i,/^(?:for\b)/i,/^(?:switch\b)/i,/^(?:case\b)/i,/^(?:default\b)/i,/^(?:break\b)/i,/^(?::)/i,/^(?:;)/i,/^(?:,)/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\()/i,/^(?:\))/i,/^(?:\+\+)/i,/^(?:--)/i,/^(?:\+=)/i,/^(?:-=)/i,/^(?:\*=)/i,/^(?:\/=)/i,/^(?:&&)/i,/^(?:\|\|)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:<=)/i,/^(?:>=)/i,/^(?:==)/i,/^(?:!=)/i,/^(?:<)/i,/^(?:>)/i,/^(?:=)/i,/^(?:\^)/i,/^(?:!)/i,/^(?:[0-9]+\b)/i,/^(?:[0-9]+(\.[0-9]+)?)/i,/^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i,/^(?:([\"][^"]*[\"]))/i,/^(?:([\'][^']*[\']))/i,/^(?:$)/i,/^(?:.)/i],
+rules: [/^(?:\s+)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/i,/^(?:continue\b)/i,/^(?:System\.out\.println\b)/i,/^(?:System\.out\.print\b)/i,/^(?:return\b)/i,/^(?:public\b)/i,/^(?:private\b)/i,/^(?:static\b)/i,/^(?:String\[\])/i,/^(?:args\b)/i,/^(?:main\b)/i,/^(?:class\b)/i,/^(?:INTERFACE\b)/i,/^(?:false\b)/i,/^(?:true\b)/i,/^(?:int\b)/i,/^(?:bool\b)/i,/^(?:double\b)/i,/^(?:string\b)/i,/^(?:char\b)/i,/^(?:void\b)/i,/^(?:while\b)/i,/^(?:do\b)/i,/^(?:if\b)/i,/^(?:else\b)/i,/^(?:for\b)/i,/^(?:switch\b)/i,/^(?:case\b)/i,/^(?:default\b)/i,/^(?:break\b)/i,/^(?::)/i,/^(?:;)/i,/^(?:,)/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\()/i,/^(?:\))/i,/^(?:\+\+)/i,/^(?:--)/i,/^(?:\+=)/i,/^(?:-=)/i,/^(?:\*=)/i,/^(?:\/=)/i,/^(?:&&)/i,/^(?:\|\|)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:<=)/i,/^(?:>=)/i,/^(?:==)/i,/^(?:!=)/i,/^(?:<)/i,/^(?:>)/i,/^(?:=)/i,/^(?:\^)/i,/^(?:!)/i,/^(?:[0-9]+\.[0-9]*)/i,/^(?:[0-9]+\b)/i,/^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i,/^(?:([\"][^"]*[\"]))/i,/^(?:([\'][^']*[\']))/i,/^(?:$)/i,/^(?:.)/i],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66],"inclusive":true}}
 });
 return lexer;

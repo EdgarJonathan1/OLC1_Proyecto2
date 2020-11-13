@@ -458,7 +458,6 @@
 						return tipo;      
 					}
 
-
 "!"					
  					{
 						var tipo = 'snot';
@@ -467,16 +466,16 @@
 						return tipo;      
 					}
 
-[0-9]+\b	
+[0-9]+"."[0-9]*
  					{
-						var tipo = 'tkentero';
+						var tipo = 'tkflotante';
 						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
 						addToken(data);
 						return tipo;      
 					}
-[0-9]+("."[0-9]+)?  
+[0-9]+\b	
  					{
-						var tipo = 'tkflotante';
+						var tipo = 'tkentero';
 						var data = [yylloc.first_line, yylloc.first_column,tipo,yytext];
 						addToken(data);
 						return tipo;      
@@ -1270,14 +1269,6 @@ EXP
 		$$ = new Nodo("EXP","")
 		$$.add($1);
 	}
-	/*
-	//| error 
-	//{
-		//msg = "Error Sintactico en:"+$1+"ERROR"+$1+" en la linea:" + this._$1.first_line + " en la Columna: " + this._$1.first_column;
-		//tbl_error.push(msg);
-		//console.log(msg);
-	//}
-	*/
 ;
 
 VALOR 

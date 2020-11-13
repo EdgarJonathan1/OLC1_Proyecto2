@@ -85,21 +85,257 @@ var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
 
-		this.$ = $$[$0-1]+"SI funciona el traductor";
-		return {
+		this.$ = $$[$0-1];
+		return  {
 					traduccion:this.$
 				};
 	
 break;
-case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15: case 16: case 17: case 18: case 19: case 20: case 21: case 22: case 23: case 24: case 25: case 26: case 27: case 28: case 29: case 30: case 31: case 32: case 33: case 34: case 36: case 37: case 38: case 39: case 40: case 41: case 42: case 43: case 44: case 45: case 46: case 47: case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57: case 58: case 59: case 60: case 61: case 62: case 63: case 64: case 65: case 66: case 67: case 68: case 69: case 70: case 71: case 72: case 73: case 74: case 75: case 76: case 77: case 78: case 79: case 80: case 81: case 82: case 83: case 84: case 85: case 86: case 87: case 88: case 89: case 90: case 91: case 92: case 93: case 94: case 95: case 96: case 97: case 98: case 99: case 100: case 105: case 106: case 107: case 108: case 109: case 110: case 111: case 112: case 113: case 114: case 115: case 116:
+case 2:
 
+		this.$ = "\nmain( args )"+$$[$0];
+	
+break;
+case 3: case 22: case 23: case 24: case 43: case 45: case 47: case 49: case 51: case 53: case 66: case 68: case 71:
+
+		this.$ = $$[$0-1]+$$[$0];
+	
+break;
+case 4: case 9: case 10: case 14: case 16: case 18: case 20: case 44: case 46: case 48: case 50: case 52: case 54: case 57: case 62: case 67: case 69: case 77: case 82:
+
+		this.$ = $$[$0];
+	
+break;
+case 5:
+
+		var result ="";
+		if($$[$0-4]!="interface")
+		{
+			result+="class "+$$[$0-3]+" {\n"+$$[$0-1]+"\n}\n";
+		}
+		this.$ = result;
+	
+break;
+case 6:
+
+		var result ="";
+		if($$[$0-3]!="interface")
+		{
+			result+="class "+$$[$0-3]+" {\n\n}\n";
+		}
+		this.$ = result;
+	
+break;
+case 7:
+
+		var result =$$[$0];
+		 this.$ = result;
+	
+break;
+case 8:
+
+		var result =$$[$0]
+		 this.$ = result;
+	
+break;
+case 11:
+
+		 this.$ = $$[$0-1]+$$[$0]+"\n";
+	
+break;
+case 12: case 42:
+
+		this.$ = $$[$0]+"\n";
+	
+break;
+case 13: case 15: case 17: case 19:
+
+		 this.$ = $$[$0-1]+$$[$0];
+	
+break;
+case 21:
+
+		 this.$ = $$[$0-2]+$$[$0-1]+$$[$0];
+	
+break;
+case 25:
+
+		this.$ = ""+$$[$0-2]+" "+$$[$0-1]+" "+$$[$0];;
+	
+break;
+case 26: case 27:
+
+		this.$ = "\nconsole.log( "+$$[$0-2]+" );\n";
+	
+break;
+case 28: case 29: case 30: case 31: case 74:
+
+		var result =""
+		this.$ = result;
+	
+break;
+case 32:
+
+	
+break;
+case 33: case 34: case 36:
+
+		var result ="\n"+$$[$0-3]+"("+$$[$0-1]+""+$$[$0];
+		this.$ = result;
 	
 break;
 case 35:
 
+		var result ="\n"+$$[$0-3]+"("+$$[$0-1]+""+$$[$0];
+		this.$ = result;
 	 
 break;
-case 101: case 102: case 103: case 104:
+case 37:
+
+		this.$ = " )";
+	
+break;
+case 38:
+
+		var result =$$[$0-1]+" )";
+		this.$ = result;
+	
+break;
+case 39:
+
+		this.$ = $$[$0-3]+", "+$$[$0];
+	
+break;
+case 40:
+
+		this.$ =$$[$0];
+	
+break;
+case 41:
+
+		this.$ = $$[$0-1]+$$[$0]+"\n";
+	
+break;
+case 55:
+
+		this.$ = $$[$0-2]+$$[$0-1];
+	
+break;
+case 56:
+
+		this.$ = $$[$0-1];
+	
+break;
+case 58:
+
+		this.$ = $$[$0-7]+$$[$0-6]+" "+$$[$0-5]+" "+$$[$0-4]+" "+$$[$0-3]+" "+$$[$0-2]+" "+$$[$0-1]+$$[$0];
+	
+break;
+case 59: case 64:
+
+		this.$ = $$[$0-4]+$$[$0-3]+" "+$$[$0-2]+" "+$$[$0-1]+$$[$0];
+	
+break;
+case 60:
+
+		this.$ = "\n"+$$[$0-6]+$$[$0-5]+$$[$0-4]+$$[$0-3]+$$[$0-2]+$$[$0-1]+$$[$0];
+	
+break;
+case 61:
+
+		this.$ = $$[$0-1]+" "+$$[$0];
+	
+break;
+case 63:
+
+		this.$ = $$[$0-5]+$$[$0-4]+" "+$$[$0-3]+" "+$$[$0-2]+$$[$0-1]+$$[$0];
+	
+break;
+case 65:
+
+		this.$ = $$[$0-2]+$$[$0-1]+$$[$0];
+	
+break;
+case 70:
+
+		this.$ = $$[$0-5]+" "+$$[$0-4]+$$[$0-3]+$$[$0-2]+$$[$0-1]+$$[$0];
+	
+break;
+case 72:
+
+		var result =$$[$0-1]+"\n}"
+		this.$ = result;
+	
+break;
+case 73:
+
+		this.$ = "\n}";
+	
+break;
+case 75:
+
+		this.$ = $$[$0-4]+$$[$0-3]+$$[$0-2]+$$[$0-1]+"; ";
+	
+break;
+case 76: case 81:
+
+		this.$ = $$[$0-2]+", "+$$[$0];
+	
+break;
+case 78:
+
+		this.$ = "var "+$$[$0-1]+"; ";
+	
+break;
+case 79:
+
+		this.$ = $$[$0-1]+"; ";
+	
+break;
+case 80: case 85: case 86: case 87: case 88: case 89:
+
+		var result =""
+		 this.$ = result;
+	
+break;
+case 83:
+
+		this.$ = " "+$$[$0-2]+" "+$$[$0-1]+" "+$$[$0];
+	
+break;
+case 84:
+
+		this.$ = " "+$$[$0];
+	
+break;
+case 90: case 91: case 92: case 94: case 95: case 96: case 97: case 98: case 99: case 101: case 102: case 104: case 105:
+
+		this.$=$$[$0-2]+" "+$$[$0-1]+" "+$$[$0];
+	
+break;
+case 93:
+
+		this.$=$$[$0-1]+" "+$$[$0];
+	
+break;
+case 100:
+
+		this.$=$$[$0-1]+$$[$0]
+	
+break;
+case 103:
+	
+		this.$=$$[$0-2]+" "+$$[$0-1]+" "+$$[$0];
+	
+break;
+case 106: case 107: case 108: case 109: case 110: case 111: case 112: case 113: case 114:
+
+		this.$=$$[$0];
+	
+break;
+case 115: case 116:
+
+		this.$ = " "+$$[$0-1]+$$[$0];
 	
 break;
 }
@@ -355,8 +591,6 @@ _handle_error:
 }};
 
 
-
-	
 
 
 /* generated by jison-lex 0.3.4 */
@@ -979,12 +1213,12 @@ case 59:
 					
 break;
 case 60:
-						var tipo = 'tkentero';
+						var tipo = 'tkflotante';
 						return tipo;      
 					
 break;
 case 61:
-						var tipo = 'tkflotante';
+						var tipo = 'tkentero';
 						return tipo;      
 					
 break;
@@ -1011,7 +1245,7 @@ case 66:
 break;
 }
 },
-rules: [/^(?:\s+)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/i,/^(?:continue\b)/i,/^(?:System\.out\.println\b)/i,/^(?:System\.out\.print\b)/i,/^(?:return\b)/i,/^(?:public\b)/i,/^(?:private\b)/i,/^(?:static\b)/i,/^(?:String\[\])/i,/^(?:args\b)/i,/^(?:main\b)/i,/^(?:class\b)/i,/^(?:INTERFACE\b)/i,/^(?:false\b)/i,/^(?:true\b)/i,/^(?:int\b)/i,/^(?:bool\b)/i,/^(?:double\b)/i,/^(?:string\b)/i,/^(?:char\b)/i,/^(?:void\b)/i,/^(?:while\b)/i,/^(?:do\b)/i,/^(?:if\b)/i,/^(?:else\b)/i,/^(?:for\b)/i,/^(?:switch\b)/i,/^(?:case\b)/i,/^(?:default\b)/i,/^(?:break\b)/i,/^(?::)/i,/^(?:;)/i,/^(?:,)/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\()/i,/^(?:\))/i,/^(?:\+\+)/i,/^(?:--)/i,/^(?:\+=)/i,/^(?:-=)/i,/^(?:\*=)/i,/^(?:\/=)/i,/^(?:&&)/i,/^(?:\|\|)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:<=)/i,/^(?:>=)/i,/^(?:==)/i,/^(?:!=)/i,/^(?:<)/i,/^(?:>)/i,/^(?:=)/i,/^(?:\^)/i,/^(?:!)/i,/^(?:[0-9]+\b)/i,/^(?:[0-9]+(\.[0-9]+)?)/i,/^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i,/^(?:([\"][^"]*[\"]))/i,/^(?:([\'][^']*[\']))/i,/^(?:$)/i,/^(?:.)/i],
+rules: [/^(?:\s+)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/i,/^(?:continue\b)/i,/^(?:System\.out\.println\b)/i,/^(?:System\.out\.print\b)/i,/^(?:return\b)/i,/^(?:public\b)/i,/^(?:private\b)/i,/^(?:static\b)/i,/^(?:String\[\])/i,/^(?:args\b)/i,/^(?:main\b)/i,/^(?:class\b)/i,/^(?:INTERFACE\b)/i,/^(?:false\b)/i,/^(?:true\b)/i,/^(?:int\b)/i,/^(?:bool\b)/i,/^(?:double\b)/i,/^(?:string\b)/i,/^(?:char\b)/i,/^(?:void\b)/i,/^(?:while\b)/i,/^(?:do\b)/i,/^(?:if\b)/i,/^(?:else\b)/i,/^(?:for\b)/i,/^(?:switch\b)/i,/^(?:case\b)/i,/^(?:default\b)/i,/^(?:break\b)/i,/^(?::)/i,/^(?:;)/i,/^(?:,)/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\()/i,/^(?:\))/i,/^(?:\+\+)/i,/^(?:--)/i,/^(?:\+=)/i,/^(?:-=)/i,/^(?:\*=)/i,/^(?:\/=)/i,/^(?:&&)/i,/^(?:\|\|)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:<=)/i,/^(?:>=)/i,/^(?:==)/i,/^(?:!=)/i,/^(?:<)/i,/^(?:>)/i,/^(?:=)/i,/^(?:\^)/i,/^(?:!)/i,/^(?:[0-9]+\.[0-9]*)/i,/^(?:[0-9]+\b)/i,/^(?:([a-zA-Z])[a-zA-Z0-9_]*)/i,/^(?:([\"][^"]*[\"]))/i,/^(?:([\'][^']*[\']))/i,/^(?:$)/i,/^(?:.)/i],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66],"inclusive":true}}
 });
 return lexer;
