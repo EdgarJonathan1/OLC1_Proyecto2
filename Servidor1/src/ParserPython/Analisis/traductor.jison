@@ -19,333 +19,73 @@
 //Palabras Reservadas
 
 "continue"  
- 					{
-						var tipo = 'rcontinue';
-						return tipo;      
-					}
 "System.out.println"  
- 					{
-						var tipo = 'rprintln';
-						return tipo;      
-					}
 "System.out.print"  
- 					{
-						var tipo = 'rprint';
-						return tipo;      
-					}
 "return"  
- 					{
-						var tipo = 'rreturn';
-						return tipo;      
-					}
 "public"  
- 					{
-						var tipo = 'rpublic';
-						return tipo;      
-					}
-
 "private"  			
- 					{
-						var tipo = 'rprivate';
-						return tipo;      
-					}
-"static"  			
- 					{
-						var tipo = 'rstatic';
-						return tipo;      
-					}
+"static"  				
 "String[]"  		
- 					{
-						var tipo = 'rstring';
-						return tipo;      
-					}
 "args"  			
- 					{
-						var tipo = 'rargs';
-						return tipo;      
-					}
 "main"  			
- 					{
-						var tipo = 'rmain';
-						return tipo;      
-					}
 "class"  			
- 					{
-						var tipo = 'rclass';
-						return tipo;      
-					}
 "INTERFACE"  		
- 					{
-						var tipo = 'rinterface';
-						return tipo;      
-					}
 "false"				
- 					{
-						var tipo = 'rfalse';
-						return tipo;      
-					}
 "true"				
- 					{
-						var tipo = 'rtrue';
-						return tipo;      
-					}
 
-//Tipos de dato
 "int"				
- 					{
-						var tipo = 'rint';
-						return tipo;      
-					}
 "bool"				
- 					{
-						var tipo = 'rbool';
-						return tipo;      
-					}
 "double"				
- 					{
-						var tipo = 'rfloat';
-						return tipo;      
-					}
 "string"			
- 					{
-						var tipo = 'rstring';
-						return tipo;      
-					}
 "char"				
- 					{
-						var tipo = 'rchar';
-						return tipo;      
-					}
 "void"				
- 					{
-						var tipo = 'rvoid';
-						return tipo;      
-					}
 
 "while"				
- 					{
-						var tipo = 'rwhile';
-						return tipo;      
-					}
 "do"				
- 					{
-						var tipo = 'rdo';
-						return tipo;      
-					}
 "if"				
- 					{
-						var tipo = 'rif';
-						return tipo;      
-					}
 "else"				
- 					{
-						var tipo = 'relse';
-						return tipo;      
-					}
 "for"				
- 					{
-						var tipo = 'rfor';
-						return tipo;      
-					}
-"switch"			
- 					{
-						var tipo = 'rswitch';
-						return tipo;      
-					}
-"case"				
- 					{
-						var tipo = 'rcase';
-						return tipo;      
-					}
-"default"			
- 					{
-						var tipo = 'rdefault';
-						return tipo;      
-					}
 "break"				
- 					{
-						var tipo = 'rbreak';
-						return tipo;      
-					}
 
 //Simbolos
 
-":"			
- 					{
-						var tipo = 'sdospuntos';
-						return tipo;      
-					}
 ";"					
- 					{
-						var tipo = 'spuntocoma';
-						return tipo;      
-					}
 ","					
- 					{
-						var tipo = 'scoma';
-						return tipo;      
-					}
 "{"				
- 					{
-						var tipo = 'sllaveizq';
-						return tipo;      
-					}
 "}"					
- 					{
-						var tipo = 'sllaveder';
-						return tipo;      
-					}
 "("					
- 					{
-						var tipo = 'sparizq';
-						return tipo;      
-					}
 ")"					
- 					{
-						var tipo = 'sparder';
-						return tipo;      
-					}
 
-"++"				
- 					{
-						var tipo = 'adicion';
-						return tipo;      
-					}
-"--"			
- 					{
-						var tipo = 'sustraccion';
-						return tipo;      
-					}
-"+="		
- 					{
-						var tipo = 'smasigual';
-						return tipo;      
-					}
-"-="				
- 					{
-						var tipo = 'smenosigual';
-						return tipo;      
-					}
-"*="				
- 					{
-						var tipo = 'sporigual';
-						return tipo;      
-					}
-"/="				
- 					{
-						var tipo = 'sdivigual';
-						return tipo;      
-					}
-"&&"				
- 					{
-						var tipo = 'sand';
-						return tipo;      
-					}
-"||"				
- 					{
-						var tipo = 'sor';
-						return tipo;      
-					}
-
+		
 "+"					
- 					{
-						var tipo = 'smas';
-						return tipo;      
-					}
 "-"					
- 					{
-						var tipo = 'smenos';
-						return tipo;      
-					}
 "*"					
- 					{
-						var tipo = 'spor';
-						return tipo;      
-					}
-"/"					
- 					{
-						var tipo = 'sdiv';
-						return tipo;      
-					}
-
-"<="				
- 					{
-						var tipo = 'smenigque';
-						return tipo;      
-					}
-">="				
- 					{
-						var tipo = 'smayigque';
-						return tipo;      
-					}
-"=="				
- 					{
-						var tipo = 'sdobleig';
-						return tipo;      
-					}
-"!="				
- 					{
-						var tipo = 'snoig';
-						return tipo;      
-					}
+"/"		
 
 "<"					
- 					{
-						var tipo = 'smenque';
-						return tipo;      
-					}
 ">"					
- 					{
-						var tipo = 'smayque';
-						return tipo;      
-					}
 "="		
- 					{
-						var tipo = 'sigual';
-						return tipo;      
-					}
 "^"				
- 					{
-						var tipo = 'sxor';
-						return tipo;      
-					}
-
-
 "!"					
- 					{
-						var tipo = 'snot';
-						return tipo;      
-					}
+
+"++"				
+"--"			
+"&&"				
+"||"				
+
+"<="				
+">="				
+"=="				
+"!="			
 [0-9]+"."[0-9]*
- 					{
-						var tipo = 'tkflotante';
-						return tipo;      
-					}
 
 [0-9]+\b	
- 					{
-						var tipo = 'tkentero';
-						return tipo;      
-					}
 
 ([a-zA-Z])[a-zA-Z0-9_]*	
- 					{
-						var tipo = 'tkidentificador';
-						return tipo;      
-					}
 
 ([\"][^"]*[\"]) 
- 					{
-						var tipo = 'tkstring';
-						return tipo;      
-					}
 ([\'][^']*[\']) 
- 					{
-						var tipo = 'tkstring2';
-						return tipo;      
-					}
 
-//[\"]([^\"\n]|(\\\"))*[\"]       { console.log('Reconocion Cadena xd');  return 'tkstring'; }
 
 <<EOF>>				return 'EOF';
 .					{ 

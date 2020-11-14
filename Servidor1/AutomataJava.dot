@@ -1,0 +1,66 @@
+digraph finite_state_machine {
+    rankdir=LR;
+    size="8,5"
+
+    node [shape = doublecircle];
+    S1;
+    S2;
+    S4;
+    S8;
+    S11;
+    S13;
+    S9;
+    S15;
+    S16;
+    S20;
+    S22;
+
+    node [shape = point ]; qi
+    node [shape = circle];
+    qi -> S0; 
+   
+    S0 -> S1 [ label = "L"];
+    S1 -> S1 [ label = "L N _ "];
+    
+    S1 -> S21[ label = "["];
+    S21 -> S22[ label = "]"];
+    
+    S1 -> S17[ label = "."];
+
+    S17 -> S18 [ label = "L"];
+    S18 -> S18 [ label = "L "];
+    
+    S18 -> S19[ label = "."];
+    
+    S19 -> S20 [ label = "L"];
+    S20 -> S20 [ label = "L "];
+
+    S0 -> S2 [ label = "N"];
+    S2 -> S3 [label = "."];
+    S2 -> S2 [label = "N"];
+    S3 -> S4 [label="N"];
+    S4 -> S4 [label="N"];
+
+    S0 -> S5 [label = "/"];
+    S5 -> S14[label = "/"];
+    S5 -> S6 [label = "*"];
+    S6 -> S6 [label = "cualquier cosa"];
+    S6 -> S7 [label = "*"];
+    S7 -> S7 [label = "*"];
+    S7 -> S6 [label = "cualquier cosa"];
+    S7 -> S8 [label = "/"];
+    
+    S0 -> S10[label="\""];
+    S10 -> S10[label="cualquier cosa"];
+    S10 -> S11 [label = "\""];
+
+    S0 -> S12 [label = "'"];
+    S12 -> S12 [label = "cualquier cosa"];
+    S12 -> S13 [label = "'"];
+
+    S0 -> S9 [label = "Simbolo"];
+    S9 -> S16 [label = "Simbolo"];
+    S14 -> S14 [label = "cualquier cosa"];
+    S14 -> S15 [label = "\\n"];
+  
+}

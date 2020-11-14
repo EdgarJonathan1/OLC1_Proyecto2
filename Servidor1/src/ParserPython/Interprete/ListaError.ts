@@ -7,7 +7,7 @@ export class ListaError{
     constructor(){
         this.ListaE = new Array<Error>();
     }
-    public insertar(nodoN:Error):void{
+    public push(nodoN:Error):void{
         this.ListaE.push(nodoN);
     }
 
@@ -15,7 +15,7 @@ export class ListaError{
         return this.ListaE;
     }
 
-    public reporteErrores():String{
+    public reporteErrores():string{
         let c:string = "";
         c += "<tr><td>No.</td><td>Tipo Error</td><td>Linea</td><td>Columna</td><td>Descripcion</td></tr>";
         let n:number = 1;
@@ -26,9 +26,9 @@ export class ListaError{
         return c;
     }
 
-    public reportConsola():String
+    public reportConsola():string
     {
-        let result :String = "";
+        let result :string = "";
 
         for(let i of this.ListaE)
         {

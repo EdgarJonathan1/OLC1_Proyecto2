@@ -9,8 +9,8 @@ class UserRoutes{
     constructor(){ this.config(); }
 
     config(): void {
-        this.router.post('/Javascript',servicio.Javascript);
-        this.router.post('/traducirJavascript',servicio.TraducirJavascript);
+        this.router.post('/Python',servicio.Python);
+        this.router.post('/TraducirPython',servicio.TraducirPython);
         // this.router.get('/Javascript',servicio.Javascript);
         //this.router.get('/prueba',servicio.prueba);
     }

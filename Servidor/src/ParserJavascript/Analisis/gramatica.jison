@@ -1087,7 +1087,6 @@ DECLARA_ASIGN
 	{
 		var data = [this._$.first_line,this._$.first_column,yytext];
 		addErr(data); 
-
 		$$ = new Nodo("ERROR","");
 		$$.add(new Nodo(yytext,""));
 	}

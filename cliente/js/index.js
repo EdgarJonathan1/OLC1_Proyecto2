@@ -1,6 +1,7 @@
 var contador = 0;
 var contenidoAST = "";
-var host = "http://192.168.1.13:8080/Ana/"
+var hostJison = "http://192.168.1.13:8080/Ana/"
+var hostHerramienta = "http://192.168.1.13:4200/Ana/"
 //var host = "http://172.17.0.2:8080/Ana/"
 
 function get_cont() {
@@ -162,6 +163,45 @@ function AbrirArchivo(files) {
 /*-----------------------------------------------ComunicacionApi---------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------------*/
+function AnalizarPython() {
+
+    var ta = document.getElementById(get_vent());
+    var contenido = ta.value;
+    contenido = contenido.replace(/\"/gm, '\'');
+    contenido = contenido.replace(/\\\'/gm, '');
+
+
+    var enviar = {
+        texto: contenido
+    };
+
+
+    fetch(hostHerramienta + "Python", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json, application/json, */*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(enviar)
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data.responde);
+
+            var ReportError = document.getElementById('tablaError');
+            var tablaToken = document.getElementById('tablaToken');
+
+            while (ReportError.firstChild) { ReportError.removeChild(ReportError.firstChild); }
+            while (tablaToken.firstChild) { tablaToken.removeChild(tablaToken.firstChild); }
+
+
+            ReportError.innerHTML = data.errores;
+            tablaToken.innerHTML = data.tokens;
+        });
+
+}
+
+
 function hacerPost() {
 
     var ta = document.getElementById(get_vent());
@@ -178,7 +218,7 @@ function hacerPost() {
     data.append("json", JSON.stringify(enviar));
     //console.log("enviando: " + JSON.stringify(enviar))   
 
-    fetch(host + "Javascript", {
+    fetch(hostJison + "Javascript", {
         method: "POST",
         headers: {
             'Accept': 'application/json, application/json, */*',
@@ -203,8 +243,7 @@ function hacerPost() {
             ReportError.innerHTML = data.errores;
             consoleJava.innerHTML = data.consola;
             tablaToken.innerHTML = data.tokens;
-        }
-        )
+        })
 
 }
 
@@ -222,7 +261,7 @@ function DescargarJavascript() {
     var data = new FormData();
     data.append("json", JSON.stringify(enviar));
 
-    fetch(host + "traducirJavascript", {
+    fetch(hostJison + "traducirJavascript", {
         method: "POST",
         headers: {
             'Accept': 'application/json, application/json, */*',
@@ -237,7 +276,7 @@ function DescargarJavascript() {
 
             var contenido = data.traduccion; //texto de vent actual
 
-            var nombre =  "Traduccion.js";
+            var nombre = "Traduccion.js";
             var file = new Blob([contenido], { type: 'text/plain' });
 
             if (window.navigator.msSaveOrOpenBlob) {
@@ -256,7 +295,7 @@ function DescargarJavascript() {
             }
 
         }
-    )
+        );
 
 }
 

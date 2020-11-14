@@ -1,4 +1,4 @@
-import { Token } from "./Token";
+import { Token } from "../Analisis/Lexico/Token";
 
 export class ListaToken{
 
@@ -7,7 +7,7 @@ export class ListaToken{
     constructor(){
         this.ListaE = new Array<Token>();
     }
-    public insertar(nodoN:Token):void{
+    public push(nodoN:Token):void{
         this.ListaE.push(nodoN);
     }
 
@@ -15,20 +15,20 @@ export class ListaToken{
         return this.ListaE;
     }
 
-    public reporteTokens():String{
+    public reporteTokens():string{
         let c:string = "";
-        c += "<tr><td>No.</td><td>Tipo Token</td><td>Fila</td><td>Columna</td><td>Descripcion</td></tr>";
+        c += "<tr><td>No.</td><td>Tipo Token</td><td>id Token</td><td>Fila</td><td>Columna</td><td>Descripcion</td></tr>";
         let n:number = 1;
         for(let i of this.ListaE){
-            c += "<tr><td>"+n+"</td><td>"+i.tipo+"</td><td>"+ i.linea +"</td><td>"+i.columna+"</td><td>"+i.descripcion+"</td></tr>\n";
+            c += "<tr><td>"+n+"</td><td>"+i.tipo+"</td><td>"+ i.id.toString() +"</td><td>"+i.linea+"</td><td>"+i.columna+"</td><td>"+i.descripcion+"</td></tr>\n";
             n++;
         }
         return c;
     }
 
-    public reportConsola():String
+    public reportConsola():string
     {
-        let result :String = "";
+        let result :string = "";
 
         for(let i of this.ListaE)
         {
